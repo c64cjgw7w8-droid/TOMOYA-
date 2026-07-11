@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="国旗当てクイズ">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAa2UlEQVR4nO3dq7Ic57kG4F8qh4YYWkA4QAKLbKjLcIgvIJUqE6NcQGoDEZOADY18GYIhC0ggWMCBJqFJlTdw2hrNmkMf/vP3PFW7Ktpeh56emf99++vuWc8SXfnq4etfWm8DQCn/fPzxWett4FeeiMoEPMB1CkI9dnRBwh7gOKWgDDs1I4EPUJ5CkIedeIDAB2hPIdjHTttI6AP0SxlYz45aQegDjEcZuM3OuUHwA4xPEbjMTjkj9AHmpQx8Ykf8l+AHiEMRUAAEP0BgkYtA2Acu+AFYRCwC4R6w4AfgmkhFIMwDFfwArBWhCEz/AAU/AHvNXASmfWCCH4BcZiwCz1tvQAnCH4CcZsyVqRrNjE8QAH2ZZRowxYMQ/ADUNnoRGP4UgPAHoIXR82foAjD6zgdgbCPn0JDji5F3OABzGu2UwHATAOEPQI9Gy6ehCsBoOxeAWEbKqSHGFSPtUABIqf9TAt1PAIQ/ACPqPb+6LgC97zwAuKXnHOu2APS80wBgrV7zrMsC0OvOAoA9esy17gpAjzsJAI7qLd+6uUKxtx0DAKX0cIdAFxMA4Q9AJD3kXvMC0MNOAIDaWudf0wLQ+sEDQEstc7BZARD+ANAuD5ufAgAA6mtSABz9A8AnLXKxegEQ/gDwVO18rFoAhD8AXFczJ6sVAOEPAPfVyssqBUD4A8B6NXKzeAEQ/gCwXen8dBsgAARUtAA4+geA/UrmaLECIPwB4LhSeVqkAAh/AMinRK66BgAAAspeABz9A0B+ufM1awEQ/gBQTs6czVYAhD8AlJcrb10DAAABZSkAjv4BoJ4cuWsCAAABHS4Ajv4BoL6j+XuoAAh/AGjnSA47BQAAAe0uAI7+AaC9vXlsAgAAAe0qAI7+AaAfe3LZBAAAAtpcABz9A0B/tuazCQAABLSpADj6B4B+bclpEwAACGh1AXD0DwD9W5vXJgAAENCqAuDoHwDGsSa3TQAAIKC7BcDRPwCM515+mwAAQEAKAAAEdLMAGP8DwLhu5bgJAAAEdLUAOPoHgPFdy3MTAAAISAEAgIAuFgDjfwCYx6VcNwEAgIAUAAAI6EkBMP4HgPmc57sJAAAEpAAAQEAKAAAE9FkBcP4fAOZ1mvMmAAAQkAIAAAEpAAAQ0G8FwPl/AJjfkvcmAAAQkAIAAAEpAAAQkAIAAAE9S8kFgAAQjQkAAASkAABAQAoAAASkAABAQAoAAASkAABAQAoAAAT03GcAAEA8JgAAEJACAAABKQAAENAXrTcAyOvju7cppZQe3n948t8eX7+6+/23vu/lm+8Obh3Qi2cuAoRxLOF+z97wz/H9SgKMwQQAOrQ26Ht0bdsVA+iLCQA0ljvsjx795/45tygF0I4JAFQ28tF9buf7QiGAekwAoLCagZ/7qL3GFOAWhQDKMQGAAhzl53G6H5UByMsEADJpHfqXjtZLqTkFuEQZgOMUADigVujXDPdcapUEZQD2UQBgo5KhP2LQb1WyGCgDsJ4CACvVuF0vKrcXQn0KANyQK/SF/Xa5SoEyAJcpAHDB0eBvHfglxuyjPyZFAD7nNkA4cST4SwbkrfBrGcw1t+v05+0pA8tzqwjArxQASPuCv0Twtr69LqdrjyXHfjv/GVv2W4ki8NP//Cu9+Pvvs/08qMEpAELbGvw5Qz9X2B8Jw15+V8v9mqMI/PQ///rs38oAI1AACGlL8OcKp1rn5WsWgFK/r8U+P1IEzgvAKWWAXjkFQCg1g3+mcX5t5/tu73OxfN+a56LUNQKmA/RKASCEtcF/JPQFfjlHC8GWCwhLXyx4WgiUAVpyCoCprQn+UUO/1V/qa/0XAs+Vfv7WFIFbpwDWUgaozQSAad0L/73B4Ui/L6fPx97JwK3n9OO7t1VuHTQZoDYFgOmUCH6hP4a9ZeBeEaj9GQLKADUoAEzlVvhvDX6hP7Y9ZWBNEaj9QULKAKW4BoApRAv+1ufhW//+vXK9Fs5LQI5rAPZQCDjCBICh5Qr+EcKL47ZOBbbcRtiC6QBHKAAM61r4C37WWJ77GYpASsoA2ykADOlS+At+9thTBHqnDLCGawAYiuDv5/x7L9uR25rX08/f/vDZv1tdA7CVMsApEwCGcR7+0YKfOrZMBEbjY4k5pQAwhL3hL/jZa+YisHCqIDYFgK4JflqLUARSUgYiUgDo1mn4C35ai1IEUlIGonARIF3aGv5Rgr+3C+96255aevkgoNqUgbmYANCdJfwFP/TFZGAuCgDdcNQP43BHwfgUALrgqB/GZjowHgWA5taGf/TgH+Xis4f3H8I/V9EpA2NQAGhK+B/Ter88vn41TDGhHqE/BgWAZj6+eyv4YRJCfzwKAE0IfxibwB+fAkB1wh/GJPTnogBQ1Zfff3Mz/AU/9EXoz0sBoJovv//m5n8X/teNdqGdOwHGJvRjUACoQvjn18s+cyfAHIR+PAoAxd0K/15CDCIS+rEpABQl/KEfAp9TCgDFCH9oT+hzjQJAEcIf2hH6rKEAkN218Bf8+4x6gZ07AeoS+mylAJCV8Id6hD5HPG+9AcxP+OfX2z7tbXtm9fqPf04v/v773/4PjjABIJtLR/+CAY55/cc/f/bvL7//Jv387Q+NtoaZKABkIfwhn//87//99r8f09PrQJQAclAAOEz4w3GnoX/u0qctKgEcpQBwiPCH/W6F/jklgNwUALIS/nmNegvgwq2AT20J/XP+7gI5KQDsdn70b6GHp44E/iXnJcAUgL3cBsguwh+uW27Tyx3+i/P3272/tgmXKABsJvzb6nV/97pdtdS+P18J4CgFgEOiL/qQUrtP5PP+4wgFgE1OjzIsPtDe6fvQFIAtFABWE/7QJyWAPRQAVhH+9c1yu9csj6N3SgBbKQAAEJACwF2O/mEMpgBsoQCwmvCH/nmfspYCwE3LUYRFBcaxvF9NAbjFRwFzlfDvz+lz0dPFdct2+az6fizPhY8K5hoFADqxJjh7Ddd723X+35VKaE8B4CJH/3n1GtytrNkfXnvHmQJwiwLAE8J/HyGf16396bW5nhLANQoAF1lgrxP07V17DrxuL3NtBpcoAHzGVcOfs2iO5dLzpRR8YgrAKQWAJ6IumKOFfU/PU8/7Tin4lSkA5xQAfvPl99+EWhh7WwzX3OLX6/Ozddtb7/uodyU8vn6VHkwB+C8FgDBahk6UgFlrzf6o+XxFLQTEpgCQUprz6L924M+2/1q7tT9LP7czFwJTABYKACmleRa4GqE/y74a2bXnoNTzf/pzZ3j+H1+/Si9bbwTNKQAMf+V/ydDvabHvaVtuaXmx2aV9lHtbWl+/kIs7AlAAGCZYTpVYhEfcD9xXoxSMyBQABSC4j+/ett6E1XIv2gI/rvPnPmoh+PjubXr55rvWm0EjCgBdy7kwC3yuKVUIHt5/8LqjWwpAYL0e/UcP/VmPRkcKw5yfWdD7BYSmAHEpAHQjR/D1uMAytpzTgeV7vU7pgQIQVC9H/0Kf0eS4eK63qYApQEwKAE0cDf4eFk3IwVSAVhSAgFoe/R8JfgskM2tdBEwB4lEAKE7oE9WeD0Xq7fQA81IAKEbww6fX8p73Q+upAHNTAIKpMf7fG/wWOWZ25NbCWkXAaYBYFACyEfywzt6pgIkAOSkAgZQ8+t+6kFnAYP9UoOSHKpkCxKEAcIjgr2O0/dbyLwKOautUwDSAoxQAdhH8UIYiQC0KQBC5xv+CH+poWQScBojheesNYBxbwv/x9Svhv8PsY/PZH18JW99L9jFrmQBw19bgB/LbMhFwWoA1TAACODL+Xxv+jvihji3vtSPTgF7+YBjlKABc9PD+w6bwB+raUgKcFuASBYAnHPXDGGpNA5iTAjC5rWO8NYuE4Ie+rH1Pbi0BTgPMTQEgpbR+TCj4oV9rS4BpACkpACRH/TCTUtMA5qMATGzN+M5RP8wpVwlwGmBeCkBg9978jvphbGvewyYBcSkAAa05Byj4YR5rSoAiEI8CEIyRP8TkugDOKQCTunTeTvhDbHtLgOsA5qQABOF8P5CS6wL4RAEIwPl+4JwSgAIwOeEPXKMExKYATGg5Xyf8gXvWlgDXAcxHAQhK+AML60FMCsCkbh39e7OPZdTna9TtjurW8+VUwJwUgAkJf2APJSAWBSAQ4d+3KAtslMc5KutEHArAZL78/puL/39vamCta+vFtfWFMSkAABCQAhCAo39gK+vG/BSAyXkTA3tZP+amAEzMmxc4yjoyLwUAAAJSACZyeoWu1g7kcrqeuBNgHgrAhIQ/kJt1ZT4KAAAEpABMRksHSrG+zEUBAICAFICJaOdAadaZeXzRegMARvPx3dvWmwCHmQAAQEAKAAAEpABMwkgSqMV6MwcFAAACUgAAICAFAAACUgAAICAFAAACUgAAICAFAAACUgAAICB/C2ASD+8/tN4ECpnxuZ3xMcFoTAAAICAFAAACUgAAICAFAAACUgAAICB3AUzi8fWr1pvAQdeujB/5uZ3xMfGrl603gMNMAAAgIAUAAAJSAAAgIAUAAAJSAAAgIAUAAAJSAAAgIAVgEi/ffNd6E4AgrDdzUAAAICAFAAACUgAAICAFYCLXPncdIBfrzDwUAAAISAGYjHYOlGJ9mYsCAAABKQAT0tKB3Kwr81EAJvLztz/89r+9WYFcTteT03WGsSkAABCQAjAxUwDgKOvIvBSAyXnzAntZP+amAATgTQxsZd2YnwIAAAEpAJO5doWuNg+sdW29cAfAXBSAQJSAvj2+ftV6E6qI8jhHZZ2IQwGY0K0F1psbuObW+qC4zUcBmJQSMI9Rn69Rtzsq4R+PAhCUxRlYWA9iUgAm9PLNdyml+63dmx64tw4s68iyrjAPBWBySgBwzdrwZ04KQABKAHBO+KMABLGmBCgCML8173XhH4MCMKlL5+vWvKmVAJjXmvf3pXXC+f85KQDBKAEQ097wZ14KQECPr1+5LgACWTPyF/7xKACBuS4A5uZ8P7coABNbc97OKQGYU66Rv/P/81IAWF0CFAHo39r3qiN/FABSSuvPASoB0K+1wS/8SUkBmN7W8Z1pAIyn1FG/8f/cFACeWLtIKALQ1pb3oKN+zikAXLRlTKgEQH1bgl/4c4kCEMCRMZ5pAPSl1lG/8f/8vmi9AfRvWUTWLDrL1zjigLy2FGzvP9YwAWC1LYuKicA+sy/csz++Era+l+xj1jIBCOLlm+/Sx3dvD/+cLdOA06+zKME2Wwt0zveY8X8MCgC7KAJQRsvgJxYFgEMUgToe3n8Yap85/bOd4Kc2BSCQXKcBLnl8/WrTAnb6tRYyotpblEq+Z4z/41AAyGbrNGBhKkA0PQY/8SgAwZScAiyOFoHTnwGzOHJapNb7wdF/LAoAxewtAqffowgwuhGCn5gUAIo7XcRMBYhA6DMCBSCgGqcBrskxFTj9OdCLo3c+tH5NG//HowDQxJEicP59rRdO4spxu6PXL60oAEG1nAKcOnJ64NL3WUwpbcbQd/QfkwJAN45OBS59b28LLePJ+aFGXo/05NlXD1//0nojaKeHKcAtURffS4/b9tcT6XXn6D8uEwC6luMUwbXv731hpp7cH13stcUIFIDgerkWYI2cZeDSz7Box1HibxWM+Ppx9B+bAsBwf2gmpfxl4NrPGW2/8FTJP0w08uvDH2zCNQCklPq/FmCtGotajUX/2uMYIXBabvssz38Njv4xASClNOYU4JISk4FzI4fzLGofvc723Dr6JyUFgP/6+dsf0sP330y10J0/ltKL3q2fP9N+raVlSM38fD28/5B+/vaH1ptBBxQAwqhdCLb+rplD51xvR6CR9j0sXAPAZ76cbAqwRW+hdE9Pz5N9NwZH/5wyAeCJWa4H2OrSY+452Hretp5EfC1f4vXCOQWAz/z87Q/py++/ab0Z3RitFEQn7G9z9M8pBYCLok4B1ri2XxSDerw2t/Ha5BLXAHDRMgWw0OZhAd7Oay+P5bXn6J9zCgBXKQF1RSoJXlN1CH9ucQoAOrHmNsUaH3S0x73tEvjQHxMAbjIFaGfETxwccZtn5eife5633gD6tiwePR1tArcJf9ZQAFhNCYD+eZ+ylgLAXadHERYX6Nfp+9PRP/coAAAQkALAKqYA9c1y4dwsj6N3jv7ZSgFgNSUA+iT82UMBYBMlAPoi/NlLAeAQJQDa8f7jCAWAzc6PMixCdfW6v3vdrlmd729H/2ylALDL0RLwxT++zrk5EIrwJwcFgN1MAqA+4U8uCgBZrSkBy9G/KcB9o99CN/r290bJJicFgEMuHX1YpCC/S+8rR/8coQBw2JYScH7UbwoA9wl/SlAAyMIkAMoQ/pSiAJCNEgB5CX9KUgAoblnEro37nQbYrrdi1dv2zMA+pTQFgKyuHZ1YzGC9a+8XR//kpACQ3aVF6v3v/nrze0wBrhv1VrpRt7ulh/cfhD/VKAAUYbGCbW5NybyfKEEBoJhl0bp39L8wBSAq4U8LCgBFWbzgNuFPK1+03gCAiO5dGCv8Kc0EgKJ++ttPm77eaYD1ermzopftGInwpwcKAAxgtCvqR9vemoQ/vXAKgGK2Hv0vvvjH1+k/f/gx89ZAW/eC//H1q/TyzXeVtgZMAOiUsTIzEf70yASAJ/Yeuef0/nd/Tekfx3+OSQKtCX96pQDwxIs/veiiBBwl/GlpTfCnlIQ/zTgFwEUv/vSi9SYcEiX8W58qaf37eyX8GYEJAFctJWCkacDMwf/4+tUQgRv5DoA1z4/wpxcKAHeNckpg5vCnb1uCPyXhTx8UAFbpvQQIf1px1M+oFABW67UEvP73X9Jj640gHEf9jO7ZVw9f/9J6IxhLTyXg9b//8tm/I5x/vhQ8LR53L9tR29rrMIQ/vTMBYLNeJgHn4Z/Sp8U5QhBR157gT0n40y8FgF1a3iHwnz/8eHcxVgTIRfAzK58DwCG1Py9gudhvbbA/vP8wxK1z9GfLa0f4MyITAA6rdUrgxZ9epI/vPv17WXTXLNImAqy1pTBeej0Jf0bhIkCyKVkCzicNH9+9ffI1RxfukbS+AK/17y9B8BONCQBDevnmuyclwESAPXIUR+HPiBQAhnWpBKSkCLBOromR8GdUCgBZlL4G4Ke//XTxgsNl8c1VBE6/j/lsvSBU8DMz1wCQRa2LAO+5VAQWORf/HrQ6Dz/i+X/BD0+ZADCVa6cFUto2ETj/ut4Djqf23P5573kW/sxEAWA6t04LpLS9CJx/rTLQr72f+SD4iUgB4LBanwZ47TqAa25NA1LaVwTOv14ZaO/IBz2tef6EP7NyDQCH1fw44L2fPHirCJwqHSa51T4f38v5/xrPk+BndiYAVHca4rXKw73TAovTcDgyGTj/WRxz9OOctzwXgp8oFACqOj+Cr/2XBdcWgZT2nyJYKAT75fr7DYIfrnMKgEPWhvea0X3On7XW2lMDi5x/WChXIahZNEr9rpb7VfATlQLAIfdCe09Yl/iZ92wtAinlDa3FnkCtdV4+1+/pZb8JfqJzCoBi9gZ17dMCKW07NbA4D50cwXbtZ4x4+qDkn2E+sj8EP/zKBIBDLgV1ziP00j//mj0TgVMlw2+NWhOAmo4+JsEPn1MA2O08nEsGc83fdepoEVi0Ds8R5Soxgh8uUwDY7TSUawRy7d93LlcZWCgFn+SeWAh9uE8BYLetn8w3+u9d5C4CpyKUgpLXMwh+WE8BgANKloFTIxaDWhcuCn3YRwGATGqVgWtqloTWdyUIfThOAYACWpWB3J8J0Mtn/6ck9CE3nwMABZyGVevJwMiEPpRjAgCVlS4EJT+xr/TRv8CHekwAoLLzkIs8IRD40I4JAHSoxCcRbjl6L3H0L+yhLyYA0KFrYTnCtEDQwxhMAGAyS0nYexR/6/uEO8xDAQCAgJ633gAAoD4FAAACUgAAICAFAAACUgAAICAFAAACUgAAICAFAAACUgAAICAFAAACUgAAICAFAAACUgAAICAFAAACUgAAICAFAAACUgAAICAFAAACUgAAICAFAAACUgAAICAFAAACUgAAIKDn/3z88VnrjQAA6jIBAICAFAAACEgBAICAFAAACEgBAICAFAAACEgBAICAnqeUks8CAIA4/vn44zMTAAAISAEAgIAUAAAISAEAgIB+KwAuBASA+S15bwIAAAEpAAAQkAIAAAF9VgBcBwAA8zrNeRMAAAhIAQCAgBQAAAjoSQFwHQAAzOc8300AACAgBQAAArpYAJwGAIB5XMp1EwAACEgBAICArhYApwEAYHzX8twEAAACulkATAEAYFy3ctwEAAACUgAAIKC7BcBpAAAYz738NgEAgIBWFQBTAAAYx5rcNgEAgIBWFwBTAADo39q8NgEAgIA2FQBTAADo15acNgEAgIA2FwBTAADoz9Z8NgEAgIB2FQBTAADox55cNgEAgIB2FwBTAABob28emwAAQECHCoApAAC0cySHD08AlAAAqO9o/joFAAABZSkApgAAUE+O3DUBAICAshUAUwAAKC9X3madACgBAFBOzpzNfgpACQCA/HLnq2sAACCgIgXAFAAA8imRq8UmAEoAABxXKk+LngJQAgBgv5I56hoAAAioeAEwBQCA7UrnZ5UJgBIAAOvVyM1qpwCUAAC4r1ZeVr0GQAkAgOtq5mT1iwCVAAB4qnY+NrkLQAkAgE9a5KLbAAEgoGYFwBQAANrlYdMJgBIAQGQtc7D5KQAlAICIWudf8wKQUvudAAA19ZB7zTfg3FcPX//SehsAoIQegn/RxQTgVE87BwBy6S3fuisAKfW3kwDgiB5zrcsCkFKfOwsAtuo1z7otACn1u9MAYI2ec6zrApBS3zsPAK7pPb+63rhz7hAAoHe9B/+i+wnAqVF2KgAxjZRTQxWAlMbauQDEMVo+DbWx55wSAKC10YJ/MdwE4NSoOx2AOYycQ0MXgJTG3vkAjGv0/Bl64885JQBAaaMH/2KKB3FOEQAgt1mCfzH8KYBLZnuSAGhrxlyZ7gGdMw0AYK8Zg38x7QM7pwgAsNbMwb+Y/gGeUwQAuCZC8C/CPNBzigAAi0jBvwj3gM8pAgBxRQz+RdgHfk4RAIgjcvAvwu+Ac4oAwLwE/yd2xA3KAMD4hP5ldsoKigDAeAT/bXbORsoAQL+E/np21AHKAEB7Qn8fOy0jhQCgPIGfh51YkEIAcJzAL8NOrUwpALhO2Nfz/zEblY5VGxnPAAAAAElFTkSuQmCC">
+<title>国旗当てクイズ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF3E4;
+    --paper-dark:#F0E4CC;
+    --ink:#1B3358;
+    --coral:#FF6B4A;
+    --yellow:#FFC93C;
+    --teal:#2EC4B6;
+    --line: rgba(27,51,88,0.15);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{
+    margin:0; padding:0; height:100%;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(46,196,182,0.10), transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(255,201,60,0.15), transparent 45%),
+      var(--paper);
+    font-family:'Nunito', sans-serif;
+    color:var(--ink);
+    overscroll-behavior:none;
+    user-select:none;
+  }
+  #app{
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding: max(20px, env(safe-area-inset-top)) 18px max(20px, env(safe-area-inset-bottom));
+  }
+
+  header{
+    width:100%;
+    max-width:420px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .title{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:22px;
+    letter-spacing:0.3px;
+  }
+  .title span{color:var(--coral);}
+  .stats{
+    display:flex;
+    gap:8px;
+  }
+  .pill{
+    background:white;
+    border:2px solid var(--line);
+    border-radius:999px;
+    padding:6px 12px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    box-shadow: 0 2px 0 var(--line);
+  }
+
+  .passport{
+    width:100%;
+    max-width:420px;
+    background:white;
+    border-radius:28px;
+    border:3px solid var(--ink);
+    padding:28px 20px 24px;
+    position:relative;
+    box-shadow: 0 8px 0 var(--line), 0 12px 24px rgba(27,51,88,0.12);
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height:0;
+  }
+  .eyebrow{
+    font-family:'Baloo 2', sans-serif;
+    font-size:13px;
+    font-weight:700;
+    color:var(--teal);
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    margin-bottom:6px;
+  }
+  .question{
+    font-family:'Baloo 2', sans-serif;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:18px;
+    text-align:center;
+  }
+
+  .flag-wrap{
+    width:180px;
+    height:180px;
+    border-radius:24px;
+    background:var(--paper-dark);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:96px;
+    margin-bottom:22px;
+    position:relative;
+    box-shadow: inset 0 0 0 3px var(--line);
+    animation: pop-in 0.35s ease;
+  }
+  @keyframes pop-in{
+    from{ transform: scale(0.7) rotate(-6deg); opacity:0; }
+    to{ transform: scale(1) rotate(0); opacity:1; }
+  }
+
+  .choices{
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .choice{
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    font-size:15px;
+    color:var(--ink);
+    background:var(--paper);
+    border:2px solid var(--line);
+    border-radius:16px;
+    padding:14px 8px;
+    cursor:pointer;
+    box-shadow: 0 3px 0 var(--line);
+    transition: transform 0.08s ease;
+  }
+  .choice:active{ transform: translateY(2px); box-shadow:0 1px 0 var(--line); }
+  .choice.correct{
+    background:var(--teal);
+    border-color:var(--teal);
+    color:white;
+  }
+  .choice.wrong{
+    background:var(--coral);
+    border-color:var(--coral);
+    color:white;
+  }
+  .choice[disabled]{ pointer-events:none; }
+
+  .stamp{
+    position:absolute;
+    top:38%;
+    left:50%;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:30px;
+    color:var(--coral);
+    border:5px solid var(--coral);
+    border-radius:14px;
+    padding:6px 18px;
+    transform:translate(-50%,-50%) rotate(-14deg) scale(0);
+    opacity:0;
+    pointer-events:none;
+    z-index:5;
+    background:rgba(255,255,255,0.85);
+  }
+  .stamp.show{
+    animation: stamp-in 0.5s cubic-bezier(.2,1.6,.4,1) forwards;
+  }
+  @keyframes stamp-in{
+    0%{ transform:translate(-50%,-50%) rotate(-14deg) scale(2.4); opacity:0; }
+    60%{ opacity:1; }
+    100%{ transform:translate(-50%,-50%) rotate(-14deg) scale(1); opacity:1; }
+  }
+
+  .next-btn{
+    margin-top:18px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    color:white;
+    background:var(--ink);
+    border:none;
+    border-radius:999px;
+    padding:12px 28px;
+    box-shadow:0 3px 0 rgba(0,0,0,0.25);
+    cursor:pointer;
+  }
+  .next-btn:active{ transform:translateY(2px); box-shadow:none; }
+  .hidden{ display:none !important; }
+
+  .result{
+    text-align:center;
+  }
+  .result .big{
+    font-family:'Baloo 2', sans-serif;
+    font-size:48px;
+    font-weight:800;
+    color:var(--coral);
+    margin:6px 0;
+  }
+  .confetti{
+    position:fixed;
+    top:-10px;
+    width:8px; height:14px;
+    border-radius:2px;
+    opacity:0.9;
+    pointer-events:none;
+    animation: fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform: translateY(110vh) rotate(360deg); opacity:0.3; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="title">国旗当て<span>クイズ</span></div>
+    <div class="stats">
+      <div class="pill">🔥<span id="streak">0</span></div>
+      <div class="pill">⭐<span id="score">0</span>/<span id="total">0</span></div>
+    </div>
+  </header>
+
+  <div class="passport" id="game">
+    <div class="eyebrow" id="progress">第 1 問</div>
+    <div class="question">この国旗は、どこの国？</div>
+    <div class="flag-wrap">
+      <div id="flagEmoji">🏳️</div>
+      <div class="stamp" id="stamp">正解!</div>
+    </div>
+    <div class="choices" id="choices"></div>
+    <button class="next-btn hidden" id="nextBtn">次へ →</button>
+  </div>
+</div>
+
+<script>
+const COUNTRIES = [
+  {flag:"🇩🇿", name:"アルジェリア"},
+  {flag:"🇦🇴", name:"アンゴラ"},
+  {flag:"🇧🇯", name:"ベナン"},
+  {flag:"🇧🇼", name:"ボツワナ"},
+  {flag:"🇧🇫", name:"ブルキナファソ"},
+  {flag:"🇧🇮", name:"ブルンジ"},
+  {flag:"🇨🇻", name:"カーボベルデ"},
+  {flag:"🇨🇲", name:"カメルーン"},
+  {flag:"🇨🇫", name:"中央アフリカ"},
+  {flag:"🇹🇩", name:"チャド"},
+  {flag:"🇰🇲", name:"コモロ"},
+  {flag:"🇨🇬", name:"コンゴ共和国"},
+  {flag:"🇨🇩", name:"コンゴ民主共和国"},
+  {flag:"🇨🇮", name:"コートジボワール"},
+  {flag:"🇩🇯", name:"ジブチ"},
+  {flag:"🇪🇬", name:"エジプト"},
+  {flag:"🇬🇶", name:"赤道ギニア"},
+  {flag:"🇪🇷", name:"エリトリア"},
+  {flag:"🇸🇿", name:"エスワティニ"},
+  {flag:"🇪🇹", name:"エチオピア"},
+  {flag:"🇬🇦", name:"ガボン"},
+  {flag:"🇬🇲", name:"ガンビア"},
+  {flag:"🇬🇭", name:"ガーナ"},
+  {flag:"🇬🇳", name:"ギニア"},
+  {flag:"🇬🇼", name:"ギニアビサウ"},
+  {flag:"🇰🇪", name:"ケニア"},
+  {flag:"🇱🇸", name:"レソト"},
+  {flag:"🇱🇷", name:"リベリア"},
+  {flag:"🇱🇾", name:"リビア"},
+  {flag:"🇲🇬", name:"マダガスカル"},
+  {flag:"🇲🇼", name:"マラウイ"},
+  {flag:"🇲🇱", name:"マリ"},
+  {flag:"🇲🇷", name:"モーリタニア"},
+  {flag:"🇲🇺", name:"モーリシャス"},
+  {flag:"🇲🇦", name:"モロッコ"},
+  {flag:"🇲🇿", name:"モザンビーク"},
+  {flag:"🇳🇦", name:"ナミビア"},
+  {flag:"🇳🇪", name:"ニジェール"},
+  {flag:"🇳🇬", name:"ナイジェリア"},
+  {flag:"🇷🇼", name:"ルワンダ"},
+  {flag:"🇸🇹", name:"サントメ・プリンシペ"},
+  {flag:"🇸🇳", name:"セネガル"},
+  {flag:"🇸🇨", name:"セーシェル"},
+  {flag:"🇸🇱", name:"シエラレオネ"},
+  {flag:"🇸🇴", name:"ソマリア"},
+  {flag:"🇿🇦", name:"南アフリカ"},
+  {flag:"🇸🇸", name:"南スーダン"},
+  {flag:"🇸🇩", name:"スーダン"},
+  {flag:"🇹🇿", name:"タンザニア"},
+  {flag:"🇹🇬", name:"トーゴ"},
+  {flag:"🇹🇳", name:"チュニジア"},
+  {flag:"🇺🇬", name:"ウガンダ"},
+  {flag:"🇿🇲", name:"ザンビア"},
+  {flag:"🇿🇼", name:"ジンバブエ"},
+  {flag:"🇦🇬", name:"アンティグア・バーブーダ"},
+  {flag:"🇦🇷", name:"アルゼンチン"},
+  {flag:"🇧🇸", name:"バハマ"},
+  {flag:"🇧🇧", name:"バルバドス"},
+  {flag:"🇧🇿", name:"ベリーズ"},
+  {flag:"🇧🇴", name:"ボリビア"},
+  {flag:"🇧🇷", name:"ブラジル"},
+  {flag:"🇨🇦", name:"カナダ"},
+  {flag:"🇨🇱", name:"チリ"},
+  {flag:"🇨🇴", name:"コロンビア"},
+  {flag:"🇨🇷", name:"コスタリカ"},
+  {flag:"🇨🇺", name:"キューバ"},
+  {flag:"🇩🇲", name:"ドミニカ国"},
+  {flag:"🇩🇴", name:"ドミニカ共和国"},
+  {flag:"🇪🇨", name:"エクアドル"},
+  {flag:"🇸🇻", name:"エルサルバドル"},
+  {flag:"🇬🇩", name:"グレナダ"},
+  {flag:"🇬🇹", name:"グアテマラ"},
+  {flag:"🇬🇾", name:"ガイアナ"},
+  {flag:"🇭🇹", name:"ハイチ"},
+  {flag:"🇭🇳", name:"ホンジュラス"},
+  {flag:"🇯🇲", name:"ジャマイカ"},
+  {flag:"🇲🇽", name:"メキシコ"},
+  {flag:"🇳🇮", name:"ニカラグア"},
+  {flag:"🇵🇦", name:"パナマ"},
+  {flag:"🇵🇾", name:"パラグアイ"},
+  {flag:"🇵🇪", name:"ペルー"},
+  {flag:"🇰🇳", name:"セントクリストファー・ネービス"},
+  {flag:"🇱🇨", name:"セントルシア"},
+  {flag:"🇻🇨", name:"セントビンセント・グレナディーン"},
+  {flag:"🇸🇷", name:"スリナム"},
+  {flag:"🇹🇹", name:"トリニダード・トバゴ"},
+  {flag:"🇺🇸", name:"アメリカ"},
+  {flag:"🇺🇾", name:"ウルグアイ"},
+  {flag:"🇻🇪", name:"ベネズエラ"},
+  {flag:"🇦🇫", name:"アフガニスタン"},
+  {flag:"🇦🇲", name:"アルメニア"},
+  {flag:"🇦🇿", name:"アゼルバイジャン"},
+  {flag:"🇧🇭", name:"バーレーン"},
+  {flag:"🇧🇩", name:"バングラデシュ"},
+  {flag:"🇧🇹", name:"ブータン"},
+  {flag:"🇧🇳", name:"ブルネイ"},
+  {flag:"🇰🇭", name:"カンボジア"},
+  {flag:"🇨🇳", name:"中国"},
+  {flag:"🇨🇾", name:"キプロス"},
+  {flag:"🇬🇪", name:"ジョージア"},
+  {flag:"🇮🇳", name:"インド"},
+  {flag:"🇮🇩", name:"インドネシア"},
+  {flag:"🇮🇷", name:"イラン"},
+  {flag:"🇮🇶", name:"イラク"},
+  {flag:"🇮🇱", name:"イスラエル"},
+  {flag:"🇯🇵", name:"日本"},
+  {flag:"🇯🇴", name:"ヨルダン"},
+  {flag:"🇰🇿", name:"カザフスタン"},
+  {flag:"🇰🇼", name:"クウェート"},
+  {flag:"🇰🇬", name:"キルギス"},
+  {flag:"🇱🇦", name:"ラオス"},
+  {flag:"🇱🇧", name:"レバノン"},
+  {flag:"🇲🇾", name:"マレーシア"},
+  {flag:"🇲🇻", name:"モルディブ"},
+  {flag:"🇲🇳", name:"モンゴル"},
+  {flag:"🇲🇲", name:"ミャンマー"},
+  {flag:"🇳🇵", name:"ネパール"},
+  {flag:"🇰🇵", name:"北朝鮮"},
+  {flag:"🇴🇲", name:"オマーン"},
+  {flag:"🇵🇰", name:"パキスタン"},
+  {flag:"🇵🇭", name:"フィリピン"},
+  {flag:"🇶🇦", name:"カタール"},
+  {flag:"🇸🇦", name:"サウジアラビア"},
+  {flag:"🇸🇬", name:"シンガポール"},
+  {flag:"🇰🇷", name:"韓国"},
+  {flag:"🇱🇰", name:"スリランカ"},
+  {flag:"🇸🇾", name:"シリア"},
+  {flag:"🇹🇯", name:"タジキスタン"},
+  {flag:"🇹🇭", name:"タイ"},
+  {flag:"🇹🇱", name:"東ティモール"},
+  {flag:"🇹🇷", name:"トルコ"},
+  {flag:"🇹🇲", name:"トルクメニスタン"},
+  {flag:"🇦🇪", name:"アラブ首長国連邦"},
+  {flag:"🇺🇿", name:"ウズベキスタン"},
+  {flag:"🇻🇳", name:"ベトナム"},
+  {flag:"🇾🇪", name:"イエメン"},
+  {flag:"🇦🇱", name:"アルバニア"},
+  {flag:"🇦🇩", name:"アンドラ"},
+  {flag:"🇦🇹", name:"オーストリア"},
+  {flag:"🇧🇾", name:"ベラルーシ"},
+  {flag:"🇧🇪", name:"ベルギー"},
+  {flag:"🇧🇦", name:"ボスニア・ヘルツェゴビナ"},
+  {flag:"🇧🇬", name:"ブルガリア"},
+  {flag:"🇭🇷", name:"クロアチア"},
+  {flag:"🇨🇿", name:"チェコ"},
+  {flag:"🇩🇰", name:"デンマーク"},
+  {flag:"🇪🇪", name:"エストニア"},
+  {flag:"🇫🇮", name:"フィンランド"},
+  {flag:"🇫🇷", name:"フランス"},
+  {flag:"🇩🇪", name:"ドイツ"},
+  {flag:"🇬🇷", name:"ギリシャ"},
+  {flag:"🇭🇺", name:"ハンガリー"},
+  {flag:"🇮🇸", name:"アイスランド"},
+  {flag:"🇮🇪", name:"アイルランド"},
+  {flag:"🇮🇹", name:"イタリア"},
+  {flag:"🇱🇻", name:"ラトビア"},
+  {flag:"🇱🇮", name:"リヒテンシュタイン"},
+  {flag:"🇱🇹", name:"リトアニア"},
+  {flag:"🇱🇺", name:"ルクセンブルク"},
+  {flag:"🇲🇹", name:"マルタ"},
+  {flag:"🇲🇩", name:"モルドバ"},
+  {flag:"🇲🇨", name:"モナコ"},
+  {flag:"🇲🇪", name:"モンテネグロ"},
+  {flag:"🇳🇱", name:"オランダ"},
+  {flag:"🇲🇰", name:"北マケドニア"},
+  {flag:"🇳🇴", name:"ノルウェー"},
+  {flag:"🇵🇱", name:"ポーランド"},
+  {flag:"🇵🇹", name:"ポルトガル"},
+  {flag:"🇷🇴", name:"ルーマニア"},
+  {flag:"🇷🇺", name:"ロシア"},
+  {flag:"🇸🇲", name:"サンマリノ"},
+  {flag:"🇷🇸", name:"セルビア"},
+  {flag:"🇸🇰", name:"スロバキア"},
+  {flag:"🇸🇮", name:"スロベニア"},
+  {flag:"🇪🇸", name:"スペイン"},
+  {flag:"🇸🇪", name:"スウェーデン"},
+  {flag:"🇨🇭", name:"スイス"},
+  {flag:"🇺🇦", name:"ウクライナ"},
+  {flag:"🇬🇧", name:"イギリス"},
+  {flag:"🇦🇺", name:"オーストラリア"},
+  {flag:"🇫🇯", name:"フィジー"},
+  {flag:"🇰🇮", name:"キリバス"},
+  {flag:"🇲🇭", name:"マーシャル諸島"},
+  {flag:"🇫🇲", name:"ミクロネシア連邦"},
+  {flag:"🇳🇷", name:"ナウル"},
+  {flag:"🇳🇿", name:"ニュージーランド"},
+  {flag:"🇵🇼", name:"パラオ"},
+  {flag:"🇵🇬", name:"パプアニューギニア"},
+  {flag:"🇼🇸", name:"サモア"},
+  {flag:"🇸🇧", name:"ソロモン諸島"},
+  {flag:"🇹🇴", name:"トンガ"},
+  {flag:"🇹🇻", name:"ツバル"},
+  {flag:"🇻🇺", name:"バヌアツ"},
+  {flag:"🇪🇺", name:"欧州連合(EU)"},
+];
+
+let deck = [];
+let qIndex = 0;
+let score = 0;
+let streak = 0;
+let answered = false;
+
+function shuffle(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+const QUESTIONS_PER_GAME = 20;
+
+function newGame(){
+  deck = shuffle(COUNTRIES).slice(0, QUESTIONS_PER_GAME);
+  qIndex = 0; score = 0; streak = 0; answered = false;
+  document.getElementById('total').textContent = deck.length;
+  updateStats();
+  renderQuestion();
+}
+
+function updateStats(){
+  document.getElementById('score').textContent = score;
+  document.getElementById('streak').textContent = streak;
+}
+
+function renderQuestion(){
+  answered = false;
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.classList.add('hidden');
+  document.getElementById('stamp').classList.remove('show');
+
+  if(qIndex >= deck.length){
+    showResult();
+    return;
+  }
+
+  document.getElementById('progress').textContent = `第 ${qIndex+1} 問`;
+  const current = deck[qIndex];
+  document.getElementById('flagEmoji').textContent = current.flag;
+
+  const wrongPool = COUNTRIES.filter(c => c.name !== current.name);
+  const wrongs = shuffle(wrongPool).slice(0,3);
+  const options = shuffle([current, ...wrongs]);
+
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice';
+    btn.textContent = opt.name;
+    btn.onclick = () => selectAnswer(btn, opt.name === current.name);
+    choicesEl.appendChild(btn);
+  });
+}
+
+function selectAnswer(btn, isCorrect){
+  if(answered) return;
+  answered = true;
+  const buttons = document.querySelectorAll('.choice');
+  buttons.forEach(b => b.disabled = true);
+
+  if(isCorrect){
+    btn.classList.add('correct');
+    score++;
+    streak++;
+    document.getElementById('stamp').classList.add('show');
+    burstConfetti();
+  } else {
+    btn.classList.add('wrong');
+    streak = 0;
+    buttons.forEach(b => { if(b.textContent === deck[qIndex].name) b.classList.add('correct'); });
+  }
+  updateStats();
+  document.getElementById('nextBtn').classList.remove('hidden');
+}
+
+function burstConfetti(){
+  const colors = ['#FF6B4A','#FFC93C','#2EC4B6','#1B3358'];
+  for(let i=0;i<18;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDuration = (1.2 + Math.random()*0.8) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 2200);
+  }
+}
+
+document.getElementById('nextBtn').onclick = () => {
+  qIndex++;
+  renderQuestion();
+};
+
+function showResult(){
+  const game = document.getElementById('game');
+  game.innerHTML = `
+    <div class="result">
+      <div class="eyebrow">クリア!</div>
+      <div class="question">結果発表</div>
+      <div class="big">${score} / ${deck.length}</div>
+      <div style="margin-bottom:18px;">${streak >= 3 ? 'すごい連続正解!🎉' : 'よく頑張ったね!👏'}</div>
+      <button class="next-btn" id="retryBtn">もう一度遊ぶ</button>
+    </div>
+  `;
+  document.getElementById('retryBtn').onclick = newGame;
+}
+
+newGame();
+</script>
+</body>
+</html>
