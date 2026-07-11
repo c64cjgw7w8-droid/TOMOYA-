@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="国旗当てクイズ">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<title>国旗当てクイズ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF3E4;
+    --paper-dark:#F0E4CC;
+    --ink:#1B3358;
+    --coral:#FF6B4A;
+    --yellow:#FFC93C;
+    --teal:#2EC4B6;
+    --line: rgba(27,51,88,0.15);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{
+    margin:0; padding:0; height:100%;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(46,196,182,0.10), transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(255,201,60,0.15), transparent 45%),
+      var(--paper);
+    font-family:'Nunito', sans-serif;
+    color:var(--ink);
+    overscroll-behavior:none;
+    user-select:none;
+  }
+  #app{
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding: max(20px, env(safe-area-inset-top)) 18px max(20px, env(safe-area-inset-bottom));
+  }
+
+  header{
+    width:100%;
+    max-width:420px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+  }
+  .title{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:22px;
+    letter-spacing:0.3px;
+  }
+  .title span{color:var(--coral);}
+  .stats{
+    display:flex;
+    gap:8px;
+  }
+  .pill{
+    background:white;
+    border:2px solid var(--line);
+    border-radius:999px;
+    padding:6px 12px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    box-shadow: 0 2px 0 var(--line);
+  }
+
+  .passport{
+    width:100%;
+    max-width:420px;
+    background:white;
+    border-radius:28px;
+    border:3px solid var(--ink);
+    padding:28px 20px 24px;
+    position:relative;
+    box-shadow: 0 8px 0 var(--line), 0 12px 24px rgba(27,51,88,0.12);
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height:0;
+    overflow-y:auto;
+  }
+  .eyebrow{
+    font-family:'Baloo 2', sans-serif;
+    font-size:13px;
+    font-weight:700;
+    color:var(--teal);
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    margin-bottom:6px;
+    text-align:center;
+  }
+  .question{
+    font-family:'Baloo 2', sans-serif;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:18px;
+    text-align:center;
+  }
+
+  .flag-wrap{
+    width:180px;
+    height:180px;
+    border-radius:24px;
+    background:var(--paper-dark);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:96px;
+    margin-bottom:22px;
+    position:relative;
+    box-shadow: inset 0 0 0 3px var(--line);
+    animation: pop-in 0.35s ease;
+    flex-shrink:0;
+  }
+  .name-wrap{
+    width:100%;
+    min-height:100px;
+    border-radius:24px;
+    background:var(--paper-dark);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    margin-bottom:22px;
+    padding:16px;
+    text-align:center;
+    box-shadow: inset 0 0 0 3px var(--line);
+    animation: pop-in 0.35s ease;
+  }
+  @keyframes pop-in{
+    from{ transform: scale(0.7) rotate(-6deg); opacity:0; }
+    to{ transform: scale(1) rotate(0); opacity:1; }
+  }
+
+  .choices{
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .choice{
+    font-family:'Nunito', sans-serif;
+    font-weight:800;
+    font-size:15px;
+    color:var(--ink);
+    background:var(--paper);
+    border:2px solid var(--line);
+    border-radius:16px;
+    padding:14px 8px;
+    cursor:pointer;
+    box-shadow: 0 3px 0 var(--line);
+    transition: transform 0.08s ease;
+  }
+  .choice.flag-choice{
+    font-size:44px;
+    padding:16px 8px;
+  }
+  .choice:active{ transform: translateY(2px); box-shadow:0 1px 0 var(--line); }
+  .choice.correct{
+    background:var(--teal);
+    border-color:var(--teal);
+    color:white;
+  }
+  .choice.wrong{
+    background:var(--coral);
+    border-color:var(--coral);
+    color:white;
+  }
+  .choice[disabled]{ pointer-events:none; }
+
+  .stamp{
+    position:absolute;
+    top:38%;
+    left:50%;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:30px;
+    color:var(--coral);
+    border:5px solid var(--coral);
+    border-radius:14px;
+    padding:6px 18px;
+    transform:translate(-50%,-50%) rotate(-14deg) scale(0);
+    opacity:0;
+    pointer-events:none;
+    z-index:5;
+    background:rgba(255,255,255,0.85);
+    white-space:nowrap;
+  }
+  .stamp.show{
+    animation: stamp-in 0.5s cubic-bezier(.2,1.6,.4,1) forwards;
+  }
+  @keyframes stamp-in{
+    0%{ transform:translate(-50%,-50%) rotate(-14deg) scale(2.4); opacity:0; }
+    60%{ opacity:1; }
+    100%{ transform:translate(-50%,-50%) rotate(-14deg) scale(1); opacity:1; }
+  }
+
+  .next-btn{
+    margin-top:18px;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:16px;
+    color:white;
+    background:var(--ink);
+    border:none;
+    border-radius:999px;
+    padding:12px 28px;
+    box-shadow:0 3px 0 rgba(0,0,0,0.25);
+    cursor:pointer;
+  }
+  .next-btn:active{ transform:translateY(2px); box-shadow:none; }
+  .next-btn.secondary{
+    background:white;
+    color:var(--ink);
+    border:2px solid var(--line);
+    box-shadow:0 3px 0 var(--line);
+  }
+  .hidden{ display:none !important; }
+
+  .result{
+    text-align:center;
+    width:100%;
+  }
+  .result .big{
+    font-family:'Baloo 2', sans-serif;
+    font-size:48px;
+    font-weight:800;
+    color:var(--coral);
+    margin:6px 0;
+  }
+  .btn-row{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:10px;
+  }
+
+  .confetti{
+    position:fixed;
+    top:-10px;
+    width:8px; height:14px;
+    border-radius:2px;
+    opacity:0.9;
+    pointer-events:none;
+    animation: fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform: translateY(110vh) rotate(360deg); opacity:0.3; }
+  }
+
+  /* Menu styles */
+  .menu-grid{
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-top:6px;
+  }
+  .menu-grid.single{
+    grid-template-columns:1fr;
+  }
+  .menu-card{
+    background:var(--paper);
+    border:2px solid var(--line);
+    border-radius:20px;
+    padding:22px 14px;
+    text-align:center;
+    cursor:pointer;
+    box-shadow:0 3px 0 var(--line);
+    transition: transform 0.08s ease;
+  }
+  .menu-card:active{ transform:translateY(2px); box-shadow:0 1px 0 var(--line); }
+  .menu-card .emoji{ font-size:34px; display:block; margin-bottom:8px; }
+  .menu-card .label{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:800;
+    font-size:16px;
+  }
+  .menu-card .sub{
+    font-size:12px;
+    color:rgba(27,51,88,0.6);
+    margin-top:4px;
+  }
+  .menu-card.selected{
+    border-color:var(--teal);
+    background:rgba(46,196,182,0.12);
+  }
+  .back-link{
+    align-self:flex-start;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    color:var(--ink);
+    background:none;
+    border:none;
+    padding:4px 0 14px;
+    cursor:pointer;
+    opacity:0.7;
+  }
+  .hs-note{
+    font-size:12px;
+    color:rgba(27,51,88,0.55);
+    margin-top:14px;
+    text-align:center;
+  }
+  .timer-pill{
+    background:var(--coral);
+    color:white;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="title">国旗当て<span>クイズ</span></div>
+    <div class="stats" id="statsBar">
+      <div class="pill">🔥<span id="streak">0</span></div>
+      <div class="pill">⭐<span id="score">0</span>/<span id="total">0</span></div>
+    </div>
+  </header>
+
+  <div class="passport" id="game"></div>
+</div>
+
+<script>
+const COUNTRIES = [{"flag": "🇩🇿", "name": "アルジェリア", "capital": "アルジェ", "continent": "アフリカ"}, {"flag": "🇦🇴", "name": "アンゴラ", "capital": "ルアンダ", "continent": "アフリカ"}, {"flag": "🇧🇯", "name": "ベナン", "capital": "ポルトノボ", "continent": "アフリカ"}, {"flag": "🇧🇼", "name": "ボツワナ", "capital": "ハボローネ", "continent": "アフリカ"}, {"flag": "🇧🇫", "name": "ブルキナファソ", "capital": "ワガドゥグー", "continent": "アフリカ"}, {"flag": "🇧🇮", "name": "ブルンジ", "capital": "ギテガ", "continent": "アフリカ"}, {"flag": "🇨🇻", "name": "カーボベルデ", "capital": "プライア", "continent": "アフリカ"}, {"flag": "🇨🇲", "name": "カメルーン", "capital": "ヤウンデ", "continent": "アフリカ"}, {"flag": "🇨🇫", "name": "中央アフリカ", "capital": "バンギ", "continent": "アフリカ"}, {"flag": "🇹🇩", "name": "チャド", "capital": "ンジャメナ", "continent": "アフリカ"}, {"flag": "🇰🇲", "name": "コモロ", "capital": "モロニ", "continent": "アフリカ"}, {"flag": "🇨🇬", "name": "コンゴ共和国", "capital": "ブラザビル", "continent": "アフリカ"}, {"flag": "🇨🇩", "name": "コンゴ民主共和国", "capital": "キンシャサ", "continent": "アフリカ"}, {"flag": "🇨🇮", "name": "コートジボワール", "capital": "ヤムスクロ", "continent": "アフリカ"}, {"flag": "🇩🇯", "name": "ジブチ", "capital": "ジブチ", "continent": "アフリカ"}, {"flag": "🇪🇬", "name": "エジプト", "capital": "カイロ", "continent": "アフリカ"}, {"flag": "🇬🇶", "name": "赤道ギニア", "capital": "マラボ", "continent": "アフリカ"}, {"flag": "🇪🇷", "name": "エリトリア", "capital": "アスマラ", "continent": "アフリカ"}, {"flag": "🇸🇿", "name": "エスワティニ", "capital": "ムババーネ", "continent": "アフリカ"}, {"flag": "🇪🇹", "name": "エチオピア", "capital": "アディスアベバ", "continent": "アフリカ"}, {"flag": "🇬🇦", "name": "ガボン", "capital": "リーブルビル", "continent": "アフリカ"}, {"flag": "🇬🇲", "name": "ガンビア", "capital": "バンジュール", "continent": "アフリカ"}, {"flag": "🇬🇭", "name": "ガーナ", "capital": "アクラ", "continent": "アフリカ"}, {"flag": "🇬🇳", "name": "ギニア", "capital": "コナクリ", "continent": "アフリカ"}, {"flag": "🇬🇼", "name": "ギニアビサウ", "capital": "ビサウ", "continent": "アフリカ"}, {"flag": "🇰🇪", "name": "ケニア", "capital": "ナイロビ", "continent": "アフリカ"}, {"flag": "🇱🇸", "name": "レソト", "capital": "マセル", "continent": "アフリカ"}, {"flag": "🇱🇷", "name": "リベリア", "capital": "モンロビア", "continent": "アフリカ"}, {"flag": "🇱🇾", "name": "リビア", "capital": "トリポリ", "continent": "アフリカ"}, {"flag": "🇲🇬", "name": "マダガスカル", "capital": "アンタナナリボ", "continent": "アフリカ"}, {"flag": "🇲🇼", "name": "マラウイ", "capital": "リロングウェ", "continent": "アフリカ"}, {"flag": "🇲🇱", "name": "マリ", "capital": "バマコ", "continent": "アフリカ"}, {"flag": "🇲🇷", "name": "モーリタニア", "capital": "ヌアクショット", "continent": "アフリカ"}, {"flag": "🇲🇺", "name": "モーリシャス", "capital": "ポートルイス", "continent": "アフリカ"}, {"flag": "🇲🇦", "name": "モロッコ", "capital": "ラバト", "continent": "アフリカ"}, {"flag": "🇲🇿", "name": "モザンビーク", "capital": "マプト", "continent": "アフリカ"}, {"flag": "🇳🇦", "name": "ナミビア", "capital": "ウィントフック", "continent": "アフリカ"}, {"flag": "🇳🇪", "name": "ニジェール", "capital": "ニアメ", "continent": "アフリカ"}, {"flag": "🇳🇬", "name": "ナイジェリア", "capital": "アブジャ", "continent": "アフリカ"}, {"flag": "🇷🇼", "name": "ルワンダ", "capital": "キガリ", "continent": "アフリカ"}, {"flag": "🇸🇹", "name": "サントメ・プリンシペ", "capital": "サントメ", "continent": "アフリカ"}, {"flag": "🇸🇳", "name": "セネガル", "capital": "ダカール", "continent": "アフリカ"}, {"flag": "🇸🇨", "name": "セーシェル", "capital": "ビクトリア", "continent": "アフリカ"}, {"flag": "🇸🇱", "name": "シエラレオネ", "capital": "フリータウン", "continent": "アフリカ"}, {"flag": "🇸🇴", "name": "ソマリア", "capital": "モガディシュ", "continent": "アフリカ"}, {"flag": "🇿🇦", "name": "南アフリカ", "capital": "プレトリア", "continent": "アフリカ"}, {"flag": "🇸🇸", "name": "南スーダン", "capital": "ジュバ", "continent": "アフリカ"}, {"flag": "🇸🇩", "name": "スーダン", "capital": "ハルツーム", "continent": "アフリカ"}, {"flag": "🇹🇿", "name": "タンザニア", "capital": "ドドマ", "continent": "アフリカ"}, {"flag": "🇹🇬", "name": "トーゴ", "capital": "ロメ", "continent": "アフリカ"}, {"flag": "🇹🇳", "name": "チュニジア", "capital": "チュニス", "continent": "アフリカ"}, {"flag": "🇺🇬", "name": "ウガンダ", "capital": "カンパラ", "continent": "アフリカ"}, {"flag": "🇿🇲", "name": "ザンビア", "capital": "ルサカ", "continent": "アフリカ"}, {"flag": "🇿🇼", "name": "ジンバブエ", "capital": "ハラレ", "continent": "アフリカ"}, {"flag": "🇦🇬", "name": "アンティグア・バーブーダ", "capital": "セントジョンズ", "continent": "アメリカ"}, {"flag": "🇦🇷", "name": "アルゼンチン", "capital": "ブエノスアイレス", "continent": "アメリカ"}, {"flag": "🇧🇸", "name": "バハマ", "capital": "ナッソー", "continent": "アメリカ"}, {"flag": "🇧🇧", "name": "バルバドス", "capital": "ブリッジタウン", "continent": "アメリカ"}, {"flag": "🇧🇿", "name": "ベリーズ", "capital": "ベルモパン", "continent": "アメリカ"}, {"flag": "🇧🇴", "name": "ボリビア", "capital": "ラパス", "continent": "アメリカ"}, {"flag": "🇧🇷", "name": "ブラジル", "capital": "ブラジリア", "continent": "アメリカ"}, {"flag": "🇨🇦", "name": "カナダ", "capital": "オタワ", "continent": "アメリカ"}, {"flag": "🇨🇱", "name": "チリ", "capital": "サンティアゴ", "continent": "アメリカ"}, {"flag": "🇨🇴", "name": "コロンビア", "capital": "ボゴタ", "continent": "アメリカ"}, {"flag": "🇨🇷", "name": "コスタリカ", "capital": "サンホセ", "continent": "アメリカ"}, {"flag": "🇨🇺", "name": "キューバ", "capital": "ハバナ", "continent": "アメリカ"}, {"flag": "🇩🇲", "name": "ドミニカ国", "capital": "ロゾー", "continent": "アメリカ"}, {"flag": "🇩🇴", "name": "ドミニカ共和国", "capital": "サントドミンゴ", "continent": "アメリカ"}, {"flag": "🇪🇨", "name": "エクアドル", "capital": "キト", "continent": "アメリカ"}, {"flag": "🇸🇻", "name": "エルサルバドル", "capital": "サンサルバドル", "continent": "アメリカ"}, {"flag": "🇬🇩", "name": "グレナダ", "capital": "セントジョージズ", "continent": "アメリカ"}, {"flag": "🇬🇹", "name": "グアテマラ", "capital": "グアテマラシティ", "continent": "アメリカ"}, {"flag": "🇬🇾", "name": "ガイアナ", "capital": "ジョージタウン", "continent": "アメリカ"}, {"flag": "🇭🇹", "name": "ハイチ", "capital": "ポルトープランス", "continent": "アメリカ"}, {"flag": "🇭🇳", "name": "ホンジュラス", "capital": "テグシガルパ", "continent": "アメリカ"}, {"flag": "🇯🇲", "name": "ジャマイカ", "capital": "キングストン", "continent": "アメリカ"}, {"flag": "🇲🇽", "name": "メキシコ", "capital": "メキシコシティ", "continent": "アメリカ"}, {"flag": "🇳🇮", "name": "ニカラグア", "capital": "マナグア", "continent": "アメリカ"}, {"flag": "🇵🇦", "name": "パナマ", "capital": "パナマシティ", "continent": "アメリカ"}, {"flag": "🇵🇾", "name": "パラグアイ", "capital": "アスンシオン", "continent": "アメリカ"}, {"flag": "🇵🇪", "name": "ペルー", "capital": "リマ", "continent": "アメリカ"}, {"flag": "🇰🇳", "name": "セントクリストファー・ネービス", "capital": "バセテール", "continent": "アメリカ"}, {"flag": "🇱🇨", "name": "セントルシア", "capital": "カストリーズ", "continent": "アメリカ"}, {"flag": "🇻🇨", "name": "セントビンセント・グレナディーン", "capital": "キングスタウン", "continent": "アメリカ"}, {"flag": "🇸🇷", "name": "スリナム", "capital": "パラマリボ", "continent": "アメリカ"}, {"flag": "🇹🇹", "name": "トリニダード・トバゴ", "capital": "ポートオブスペイン", "continent": "アメリカ"}, {"flag": "🇺🇸", "name": "アメリカ", "capital": "ワシントンD.C.", "continent": "アメリカ"}, {"flag": "🇺🇾", "name": "ウルグアイ", "capital": "モンテビデオ", "continent": "アメリカ"}, {"flag": "🇻🇪", "name": "ベネズエラ", "capital": "カラカス", "continent": "アメリカ"}, {"flag": "🇦🇫", "name": "アフガニスタン", "capital": "カブール", "continent": "アジア"}, {"flag": "🇦🇲", "name": "アルメニア", "capital": "エレバン", "continent": "アジア"}, {"flag": "🇦🇿", "name": "アゼルバイジャン", "capital": "バクー", "continent": "アジア"}, {"flag": "🇧🇭", "name": "バーレーン", "capital": "マナーマ", "continent": "アジア"}, {"flag": "🇧🇩", "name": "バングラデシュ", "capital": "ダッカ", "continent": "アジア"}, {"flag": "🇧🇹", "name": "ブータン", "capital": "ティンプー", "continent": "アジア"}, {"flag": "🇧🇳", "name": "ブルネイ", "capital": "バンダルスリブガワン", "continent": "アジア"}, {"flag": "🇰🇭", "name": "カンボジア", "capital": "プノンペン", "continent": "アジア"}, {"flag": "🇨🇳", "name": "中国", "capital": "北京", "continent": "アジア"}, {"flag": "🇨🇾", "name": "キプロス", "capital": "ニコシア", "continent": "アジア"}, {"flag": "🇬🇪", "name": "ジョージア", "capital": "トビリシ", "continent": "アジア"}, {"flag": "🇮🇳", "name": "インド", "capital": "ニューデリー", "continent": "アジア"}, {"flag": "🇮🇩", "name": "インドネシア", "capital": "ジャカルタ", "continent": "アジア"}, {"flag": "🇮🇷", "name": "イラン", "capital": "テヘラン", "continent": "アジア"}, {"flag": "🇮🇶", "name": "イラク", "capital": "バグダッド", "continent": "アジア"}, {"flag": "🇮🇱", "name": "イスラエル", "capital": "エルサレム", "continent": "アジア"}, {"flag": "🇯🇵", "name": "日本", "capital": "東京", "continent": "アジア"}, {"flag": "🇯🇴", "name": "ヨルダン", "capital": "アンマン", "continent": "アジア"}, {"flag": "🇰🇿", "name": "カザフスタン", "capital": "アスタナ", "continent": "アジア"}, {"flag": "🇰🇼", "name": "クウェート", "capital": "クウェートシティ", "continent": "アジア"}, {"flag": "🇰🇬", "name": "キルギス", "capital": "ビシュケク", "continent": "アジア"}, {"flag": "🇱🇦", "name": "ラオス", "capital": "ビエンチャン", "continent": "アジア"}, {"flag": "🇱🇧", "name": "レバノン", "capital": "ベイルート", "continent": "アジア"}, {"flag": "🇲🇾", "name": "マレーシア", "capital": "クアラルンプール", "continent": "アジア"}, {"flag": "🇲🇻", "name": "モルディブ", "capital": "マレ", "continent": "アジア"}, {"flag": "🇲🇳", "name": "モンゴル", "capital": "ウランバートル", "continent": "アジア"}, {"flag": "🇲🇲", "name": "ミャンマー", "capital": "ネピドー", "continent": "アジア"}, {"flag": "🇳🇵", "name": "ネパール", "capital": "カトマンズ", "continent": "アジア"}, {"flag": "🇰🇵", "name": "北朝鮮", "capital": "ピョンヤン", "continent": "アジア"}, {"flag": "🇴🇲", "name": "オマーン", "capital": "マスカット", "continent": "アジア"}, {"flag": "🇵🇰", "name": "パキスタン", "capital": "イスラマバード", "continent": "アジア"}, {"flag": "🇵🇭", "name": "フィリピン", "capital": "マニラ", "continent": "アジア"}, {"flag": "🇶🇦", "name": "カタール", "capital": "ドーハ", "continent": "アジア"}, {"flag": "🇸🇦", "name": "サウジアラビア", "capital": "リヤド", "continent": "アジア"}, {"flag": "🇸🇬", "name": "シンガポール", "capital": "シンガポール", "continent": "アジア"}, {"flag": "🇰🇷", "name": "韓国", "capital": "ソウル", "continent": "アジア"}, {"flag": "🇱🇰", "name": "スリランカ", "capital": "スリジャヤワルダナプラコッテ", "continent": "アジア"}, {"flag": "🇸🇾", "name": "シリア", "capital": "ダマスカス", "continent": "アジア"}, {"flag": "🇹🇯", "name": "タジキスタン", "capital": "ドゥシャンベ", "continent": "アジア"}, {"flag": "🇹🇭", "name": "タイ", "capital": "バンコク", "continent": "アジア"}, {"flag": "🇹🇱", "name": "東ティモール", "capital": "ディリ", "continent": "アジア"}, {"flag": "🇹🇷", "name": "トルコ", "capital": "アンカラ", "continent": "アジア"}, {"flag": "🇹🇲", "name": "トルクメニスタン", "capital": "アシガバット", "continent": "アジア"}, {"flag": "🇦🇪", "name": "アラブ首長国連邦", "capital": "アブダビ", "continent": "アジア"}, {"flag": "🇺🇿", "name": "ウズベキスタン", "capital": "タシケント", "continent": "アジア"}, {"flag": "🇻🇳", "name": "ベトナム", "capital": "ハノイ", "continent": "アジア"}, {"flag": "🇾🇪", "name": "イエメン", "capital": "サナア", "continent": "アジア"}, {"flag": "🇦🇱", "name": "アルバニア", "capital": "ティラナ", "continent": "ヨーロッパ"}, {"flag": "🇦🇩", "name": "アンドラ", "capital": "アンドラ・ラ・ベリャ", "continent": "ヨーロッパ"}, {"flag": "🇦🇹", "name": "オーストリア", "capital": "ウィーン", "continent": "ヨーロッパ"}, {"flag": "🇧🇾", "name": "ベラルーシ", "capital": "ミンスク", "continent": "ヨーロッパ"}, {"flag": "🇧🇪", "name": "ベルギー", "capital": "ブリュッセル", "continent": "ヨーロッパ"}, {"flag": "🇧🇦", "name": "ボスニア・ヘルツェゴビナ", "capital": "サラエボ", "continent": "ヨーロッパ"}, {"flag": "🇧🇬", "name": "ブルガリア", "capital": "ソフィア", "continent": "ヨーロッパ"}, {"flag": "🇭🇷", "name": "クロアチア", "capital": "ザグレブ", "continent": "ヨーロッパ"}, {"flag": "🇨🇿", "name": "チェコ", "capital": "プラハ", "continent": "ヨーロッパ"}, {"flag": "🇩🇰", "name": "デンマーク", "capital": "コペンハーゲン", "continent": "ヨーロッパ"}, {"flag": "🇪🇪", "name": "エストニア", "capital": "タリン", "continent": "ヨーロッパ"}, {"flag": "🇫🇮", "name": "フィンランド", "capital": "ヘルシンキ", "continent": "ヨーロッパ"}, {"flag": "🇫🇷", "name": "フランス", "capital": "パリ", "continent": "ヨーロッパ"}, {"flag": "🇩🇪", "name": "ドイツ", "capital": "ベルリン", "continent": "ヨーロッパ"}, {"flag": "🇬🇷", "name": "ギリシャ", "capital": "アテネ", "continent": "ヨーロッパ"}, {"flag": "🇭🇺", "name": "ハンガリー", "capital": "ブダペスト", "continent": "ヨーロッパ"}, {"flag": "🇮🇸", "name": "アイスランド", "capital": "レイキャビク", "continent": "ヨーロッパ"}, {"flag": "🇮🇪", "name": "アイルランド", "capital": "ダブリン", "continent": "ヨーロッパ"}, {"flag": "🇮🇹", "name": "イタリア", "capital": "ローマ", "continent": "ヨーロッパ"}, {"flag": "🇱🇻", "name": "ラトビア", "capital": "リガ", "continent": "ヨーロッパ"}, {"flag": "🇱🇮", "name": "リヒテンシュタイン", "capital": "ファドゥーツ", "continent": "ヨーロッパ"}, {"flag": "🇱🇹", "name": "リトアニア", "capital": "ビリニュス", "continent": "ヨーロッパ"}, {"flag": "🇱🇺", "name": "ルクセンブルク", "capital": "ルクセンブルク", "continent": "ヨーロッパ"}, {"flag": "🇲🇹", "name": "マルタ", "capital": "バレッタ", "continent": "ヨーロッパ"}, {"flag": "🇲🇩", "name": "モルドバ", "capital": "キシナウ", "continent": "ヨーロッパ"}, {"flag": "🇲🇨", "name": "モナコ", "capital": "モナコ", "continent": "ヨーロッパ"}, {"flag": "🇲🇪", "name": "モンテネグロ", "capital": "ポドゴリツァ", "continent": "ヨーロッパ"}, {"flag": "🇳🇱", "name": "オランダ", "capital": "アムステルダム", "continent": "ヨーロッパ"}, {"flag": "🇲🇰", "name": "北マケドニア", "capital": "スコピエ", "continent": "ヨーロッパ"}, {"flag": "🇳🇴", "name": "ノルウェー", "capital": "オスロ", "continent": "ヨーロッパ"}, {"flag": "🇵🇱", "name": "ポーランド", "capital": "ワルシャワ", "continent": "ヨーロッパ"}, {"flag": "🇵🇹", "name": "ポルトガル", "capital": "リスボン", "continent": "ヨーロッパ"}, {"flag": "🇷🇴", "name": "ルーマニア", "capital": "ブカレスト", "continent": "ヨーロッパ"}, {"flag": "🇷🇺", "name": "ロシア", "capital": "モスクワ", "continent": "ヨーロッパ"}, {"flag": "🇸🇲", "name": "サンマリノ", "capital": "サンマリノ", "continent": "ヨーロッパ"}, {"flag": "🇷🇸", "name": "セルビア", "capital": "ベオグラード", "continent": "ヨーロッパ"}, {"flag": "🇸🇰", "name": "スロバキア", "capital": "ブラチスラバ", "continent": "ヨーロッパ"}, {"flag": "🇸🇮", "name": "スロベニア", "capital": "リュブリャナ", "continent": "ヨーロッパ"}, {"flag": "🇪🇸", "name": "スペイン", "capital": "マドリード", "continent": "ヨーロッパ"}, {"flag": "🇸🇪", "name": "スウェーデン", "capital": "ストックホルム", "continent": "ヨーロッパ"}, {"flag": "🇨🇭", "name": "スイス", "capital": "ベルン", "continent": "ヨーロッパ"}, {"flag": "🇺🇦", "name": "ウクライナ", "capital": "キーウ", "continent": "ヨーロッパ"}, {"flag": "🇬🇧", "name": "イギリス", "capital": "ロンドン", "continent": "ヨーロッパ"}, {"flag": "🇦🇺", "name": "オーストラリア", "capital": "キャンベラ", "continent": "オセアニア"}, {"flag": "🇫🇯", "name": "フィジー", "capital": "スバ", "continent": "オセアニア"}, {"flag": "🇰🇮", "name": "キリバス", "capital": "タラワ", "continent": "オセアニア"}, {"flag": "🇲🇭", "name": "マーシャル諸島", "capital": "マジュロ", "continent": "オセアニア"}, {"flag": "🇫🇲", "name": "ミクロネシア連邦", "capital": "パリキール", "continent": "オセアニア"}, {"flag": "🇳🇷", "name": "ナウル", "capital": "ヤレン", "continent": "オセアニア"}, {"flag": "🇳🇿", "name": "ニュージーランド", "capital": "ウェリントン", "continent": "オセアニア"}, {"flag": "🇵🇼", "name": "パラオ", "capital": "マルキョク", "continent": "オセアニア"}, {"flag": "🇵🇬", "name": "パプアニューギニア", "capital": "ポートモレスビー", "continent": "オセアニア"}, {"flag": "🇼🇸", "name": "サモア", "capital": "アピア", "continent": "オセアニア"}, {"flag": "🇸🇧", "name": "ソロモン諸島", "capital": "ホニアラ", "continent": "オセアニア"}, {"flag": "🇹🇴", "name": "トンガ", "capital": "ヌクアロファ", "continent": "オセアニア"}, {"flag": "🇹🇻", "name": "ツバル", "capital": "フナフティ", "continent": "オセアニア"}, {"flag": "🇻🇺", "name": "バヌアツ", "capital": "ポートビラ", "continent": "オセアニア"}, {"flag": "🇪🇺", "name": "欧州連合(EU)", "capital": null, "continent": null}];
+
+const CONTINENTS = ["アフリカ","アメリカ","アジア","ヨーロッパ","オセアニア"];
+
+// ---------- state ----------
+let selection = {
+  category: null,   // 'country' | 'capital'
+  direction: null,   // 'normal' (flag->answer) | 'reverse' (answer->flag)
+  continent: null,   // null = all, or one of CONTINENTS
+  mode: null         // '5' | '10' | '20' | 'survival' | 'timeattack'
+};
+
+let deck = [];
+let qIndex = 0;
+let score = 0;
+let streak = 0;
+let answered = false;
+let timeLeft = 0;
+let timerInterval = null;
+const TIME_ATTACK_SECONDS = 60;
+
+function shuffle(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+// ---------- localStorage highscores ----------
+function hsKey(){
+  return `flagquiz_hs_${selection.mode}_${selection.category}_${selection.direction}`;
+}
+function getHighScore(mode, category, direction){
+  const key = `flagquiz_hs_${mode}_${category}_${direction}`;
+  const v = localStorage.getItem(key);
+  return v ? parseInt(v, 10) : 0;
+}
+function setHighScoreIfBetter(mode, category, direction, value){
+  const key = `flagquiz_hs_${mode}_${category}_${direction}`;
+  const current = getHighScore(mode, category, direction);
+  if(value > current){
+    localStorage.setItem(key, String(value));
+    return true;
+  }
+  return false;
+}
+
+// ---------- pool building ----------
+function getPool(){
+  let pool = COUNTRIES.filter(c => selection.category === 'capital' ? !!c.capital : true);
+  if(selection.continent){
+    pool = pool.filter(c => c.continent === selection.continent);
+  }
+  return pool;
+}
+function answerField(){
+  return selection.category === 'capital' ? 'capital' : 'name';
+}
+
+// ---------- rendering helpers ----------
+const gameEl = () => document.getElementById('game');
+const statsBar = () => document.getElementById('statsBar');
+
+function updateStats(){
+  document.getElementById('score').textContent = score;
+  document.getElementById('streak').textContent = streak;
+}
+
+function burstConfetti(){
+  const colors = ['#FF6B4A','#FFC93C','#2EC4B6','#1B3358'];
+  for(let i=0;i<18;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDuration = (1.2 + Math.random()*0.8) + 's';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 2200);
+  }
+}
+
+// ---------- MENU SCREENS ----------
+function showStatsBar(show){
+  statsBar().style.display = show ? 'flex' : 'none';
+}
+
+function renderCategoryMenu(){
+  showStatsBar(false);
+  selection = {category:null, direction:null, continent:null, mode:null};
+  gameEl().innerHTML = `
+    <div class="eyebrow">モードをえらぼう</div>
+    <div class="question">なにで あてる?</div>
+    <div class="menu-grid">
+      <div class="menu-card" id="catCountry">
+        <span class="emoji">🏳️</span>
+        <div class="label">国名モード</div>
+        <div class="sub">国旗 ⇔ 国の名前</div>
+      </div>
+      <div class="menu-card" id="catCapital">
+        <span class="emoji">🏛️</span>
+        <div class="label">首都モード</div>
+        <div class="sub">国旗 ⇔ 首都の名前</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('catCountry').onclick = () => { selection.category='country'; renderDirectionMenu(); };
+  document.getElementById('catCapital').onclick = () => { selection.category='capital'; renderDirectionMenu(); };
+}
+
+function renderDirectionMenu(){
+  gameEl().innerHTML = `
+    <button class="back-link" id="backBtn">← もどる</button>
+    <div class="eyebrow">出題スタイル</div>
+    <div class="question">どっちを 見せる?</div>
+    <div class="menu-grid">
+      <div class="menu-card" id="dirNormal">
+        <span class="emoji">🚩→🔤</span>
+        <div class="label">国旗を見て</div>
+        <div class="sub">名前をえらぶ(通常)</div>
+      </div>
+      <div class="menu-card" id="dirReverse">
+        <span class="emoji">🔤→🚩</span>
+        <div class="label">名前を見て</div>
+        <div class="sub">国旗をえらぶ(逆)</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('backBtn').onclick = renderCategoryMenu;
+  document.getElementById('dirNormal').onclick = () => { selection.direction='normal'; renderContinentMenu(); };
+  document.getElementById('dirReverse').onclick = () => { selection.direction='reverse'; renderContinentMenu(); };
+}
+
+function renderContinentMenu(){
+  const icons = {"アフリカ":"🌍","アメリカ":"🌎","アジア":"🌏","ヨーロッパ":"🏰","オセアニア":"🏝️"};
+  let cards = `<div class="menu-card" id="contAll"><span class="emoji">🌐</span><div class="label">すべて</div><div class="sub">全世界から出題</div></div>`;
+  CONTINENTS.forEach(c => {
+    cards += `<div class="menu-card" data-cont="${c}"><span class="emoji">${icons[c]}</span><div class="label">${c}</div></div>`;
+  });
+  gameEl().innerHTML = `
+    <button class="back-link" id="backBtn">← もどる</button>
+    <div class="eyebrow">出題はんい</div>
+    <div class="question">どこの 地域にする?</div>
+    <div class="menu-grid">${cards}</div>
+  `;
+  document.getElementById('backBtn').onclick = renderDirectionMenu;
+  document.getElementById('contAll').onclick = () => { selection.continent=null; renderLengthMenu(); };
+  document.querySelectorAll('[data-cont]').forEach(el => {
+    el.onclick = () => { selection.continent = el.dataset.cont; renderLengthMenu(); };
+  });
+}
+
+function renderLengthMenu(){
+  const survivalHS = getHighScore('survival', selection.category, selection.direction);
+  const timeHS = getHighScore('timeattack', selection.category, selection.direction);
+  gameEl().innerHTML = `
+    <button class="back-link" id="backBtn">← もどる</button>
+    <div class="eyebrow">あそびかた</div>
+    <div class="question">もんすうを えらぼう</div>
+    <div class="menu-grid">
+      <div class="menu-card" data-mode="5"><span class="emoji">5️⃣</span><div class="label">5問</div></div>
+      <div class="menu-card" data-mode="10"><span class="emoji">🔟</span><div class="label">10問</div></div>
+      <div class="menu-card" data-mode="20"><span class="emoji">2️⃣0️⃣</span><div class="label">20問</div></div>
+      <div class="menu-card" data-mode="survival"><span class="emoji">💀</span><div class="label">サバイバル</div><div class="sub">自己ベスト: ${survivalHS}問</div></div>
+      <div class="menu-card" data-mode="timeattack" style="grid-column:1 / span 2;"><span class="emoji">⏱️</span><div class="label">タイムアタック(60秒)</div><div class="sub">自己ベスト: ${timeHS}問</div></div>
+    </div>
+  `;
+  document.getElementById('backBtn').onclick = renderContinentMenu;
+  document.querySelectorAll('[data-mode]').forEach(el => {
+    el.onclick = () => { selection.mode = el.dataset.mode; startGame(); };
+  });
+}
+
+// ---------- QUIZ ENGINE ----------
+function startGame(){
+  showStatsBar(true);
+  const pool = getPool();
+
+  if(pool.length < 4){
+    gameEl().innerHTML = `
+      <div class="eyebrow">おっと!</div>
+      <div class="question">この地域だと もんだいが すくなすぎるよ</div>
+      <button class="next-btn" id="backBtn2">もどる</button>
+    `;
+    document.getElementById('backBtn2').onclick = renderContinentMenu;
+    return;
+  }
+
+  score = 0; streak = 0; qIndex = 0; answered = false;
+  clearInterval(timerInterval);
+
+  if(selection.mode === 'survival'){
+    deck = shuffle(pool); // whole pool, ends on first mistake
+  } else if(selection.mode === 'timeattack'){
+    deck = shuffle(pool);
+    timeLeft = TIME_ATTACK_SECONDS;
+  } else {
+    const n = parseInt(selection.mode, 10);
+    deck = shuffle(pool).slice(0, Math.min(n, pool.length));
+  }
+
+  document.getElementById('total').textContent =
+    selection.mode === 'survival' ? '∞' :
+    selection.mode === 'timeattack' ? `${TIME_ATTACK_SECONDS}s` :
+    deck.length;
+
+  updateStats();
+  renderQuestion();
+}
+
+function buildQuestionHTML(){
+  const field = answerField();
+  const modeLabel =
+    selection.mode === 'survival' ? 'サバイバル' :
+    selection.mode === 'timeattack' ? `タイムアタック <span id="timerDisplay">${timeLeft}</span>秒` :
+    `第 ${qIndex+1} / ${deck.length} 問`;
+
+  const promptText = selection.direction === 'normal'
+    ? (selection.category === 'capital' ? 'この国旗の 首都は?' : 'この国旗は、どこの国?')
+    : (selection.category === 'capital' ? 'この首都の 国旗は?' : 'この国の 国旗は?');
+
+  return {field, modeLabel, promptText};
+}
+
+function renderQuestion(){
+  answered = false;
+
+  if(selection.mode !== 'survival' && selection.mode !== 'timeattack' && qIndex >= deck.length){
+    showResultCleared();
+    return;
+  }
+  if((selection.mode === 'survival' || selection.mode === 'timeattack') && qIndex >= deck.length){
+    // ran out of unique questions in pool; reshuffle and continue
+    deck = deck.concat(shuffle(getPool()));
+  }
+
+  const {field, modeLabel, promptText} = buildQuestionHTML();
+  const current = deck[qIndex];
+
+  let stageHTML;
+  if(selection.direction === 'normal'){
+    stageHTML = `<div class="flag-wrap"><div id="stageContent">${current.flag}</div><div class="stamp" id="stamp">正解!</div></div>`;
+  } else {
+    stageHTML = `<div class="name-wrap"><div id="stageContent">${current[field]}</div></div><div class="stamp" id="stampOuter" style="display:none;"></div>`;
+  }
+
+  gameEl().innerHTML = `
+    <div class="eyebrow" id="progress">${modeLabel}</div>
+    <div class="question">${promptText}</div>
+    ${stageHTML}
+    <div class="choices" id="choices"></div>
+    <button class="next-btn hidden" id="nextBtn">次へ →</button>
+  `;
+
+  if(selection.direction === 'normal'){
+    document.getElementById('stamp').classList.remove('show');
+  }
+
+  // build options
+  const wrongPool = getPool().filter(c => c[field] !== current[field]);
+  const wrongs = shuffle(wrongPool).slice(0,3);
+  const options = shuffle([current, ...wrongs]);
+
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'choice' + (selection.direction === 'reverse' ? ' flag-choice' : '');
+    btn.textContent = selection.direction === 'reverse' ? opt.flag : opt[field];
+    btn.onclick = () => selectAnswer(btn, opt[field] === current[field]);
+    choicesEl.appendChild(btn);
+  });
+
+  if(selection.mode === 'timeattack'){
+    startTimerIfNeeded();
+  }
+}
+
+function startTimerIfNeeded(){
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const disp = document.getElementById('timerDisplay');
+    if(disp) disp.textContent = timeLeft;
+    if(timeLeft <= 0){
+      clearInterval(timerInterval);
+      endTimeAttack();
+    }
+  }, 1000);
+}
+
+function selectAnswer(btn, isCorrect){
+  if(answered) return;
+  answered = true;
+  const buttons = document.querySelectorAll('.choice');
+  buttons.forEach(b => b.disabled = true);
+  const field = answerField();
+  const current = deck[qIndex];
+
+  if(isCorrect){
+    btn.classList.add('correct');
+    score++;
+    streak++;
+    if(selection.direction === 'normal'){
+      const stamp = document.getElementById('stamp');
+      if(stamp) stamp.classList.add('show');
+    }
+    burstConfetti();
+  } else {
+    btn.classList.add('wrong');
+    streak = 0;
+    buttons.forEach(b => {
+      const label = selection.direction === 'reverse' ? current.flag : current[field];
+      if(b.textContent === label) b.classList.add('correct');
+    });
+  }
+  updateStats();
+
+  if(selection.mode === 'survival' && !isCorrect){
+    setTimeout(() => endSurvival(), 700);
+    return;
+  }
+
+  if(selection.mode === 'timeattack'){
+    setTimeout(() => {
+      qIndex++;
+      renderQuestion();
+    }, 500);
+    return;
+  }
+
+  document.getElementById('nextBtn').classList.remove('hidden');
+  document.getElementById('nextBtn').onclick = () => {
+    qIndex++;
+    renderQuestion();
+  };
+}
+
+// ---------- RESULT SCREENS ----------
+function showResultCleared(){
+  const isPerfect = score === deck.length;
+  gameEl().innerHTML = `
+    <div class="result">
+      <div class="eyebrow">クリア!</div>
+      <div class="question">結果発表</div>
+      <div class="big">${score} / ${deck.length}</div>
+      <div style="margin-bottom:18px;">${isPerfect ? '全問正解!すごい!🎉' : streak >= 3 ? 'すごい連続正解!🎉' : 'よく頑張ったね!👏'}</div>
+      <div class="btn-row">
+        <button class="next-btn" id="retryBtn">もう一度遊ぶ</button>
+        <button class="next-btn secondary" id="menuBtn">モード選択へ</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('retryBtn').onclick = startGame;
+  document.getElementById('menuBtn').onclick = renderCategoryMenu;
+}
+
+function endSurvival(){
+  clearInterval(timerInterval);
+  const isNewRecord = setHighScoreIfBetter('survival', selection.category, selection.direction, score);
+  const pool = getPool();
+  const isLegend = score >= pool.length;
+  gameEl().innerHTML = `
+    <div class="result">
+      <div class="eyebrow">サバイバル終了</div>
+      <div class="question">${isLegend ? '国旗博士 認定!👑' : 'ここまで正解!'}</div>
+      <div class="big">${score}問</div>
+      <div style="margin-bottom:10px;">${isNewRecord ? '自己ベスト更新!🎉' : `自己ベスト: ${getHighScore('survival', selection.category, selection.direction)}問`}</div>
+      <div class="btn-row">
+        <button class="next-btn" id="retryBtn">もう一度遊ぶ</button>
+        <button class="next-btn secondary" id="menuBtn">モード選択へ</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('retryBtn').onclick = startGame;
+  document.getElementById('menuBtn').onclick = renderCategoryMenu;
+}
+
+function endTimeAttack(){
+  const isNewRecord = setHighScoreIfBetter('timeattack', selection.category, selection.direction, score);
+  gameEl().innerHTML = `
+    <div class="result">
+      <div class="eyebrow">タイムアップ!</div>
+      <div class="question">結果発表</div>
+      <div class="big">${score}問</div>
+      <div style="margin-bottom:10px;">${isNewRecord ? '自己ベスト更新!🎉' : `自己ベスト: ${getHighScore('timeattack', selection.category, selection.direction)}問`}</div>
+      <div class="btn-row">
+        <button class="next-btn" id="retryBtn">もう一度遊ぶ</button>
+        <button class="next-btn secondary" id="menuBtn">モード選択へ</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('retryBtn').onclick = startGame;
+  document.getElementById('menuBtn').onclick = renderCategoryMenu;
+}
+
+// ---------- init ----------
+renderCategoryMenu();
+</script>
+</body>
+</html>
