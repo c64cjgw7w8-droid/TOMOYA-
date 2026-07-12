@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>京都府道クイズ</title>
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNTAgMTMwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE1NiI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTMwIiBmaWxsPSIjZGZlNmVjIi8+Cjxwb2x5Z29uIHBvaW50cz0iMzgsMiAxMTIsMiAxNDgsNjUgMTEyLDEyOCAzOCwxMjggMiw2NSIgZmlsbD0iIzFhNWZiNCIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjgiLz4KPHRleHQgeD0iNzUiIHk9IjM4IiBmb250LWZhbWlseT0iSGlyYWdpbm8gU2Fucywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9ImJvbGQiIGxldHRlci1zcGFjaW5nPSIxMCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+5Lqs6YO9PC90ZXh0Pgo8dGV4dCB4PSI3NSIgeT0iODAiIGZvbnQtZmFtaWx5PSJIaXJhZ2lubyBTYW5zLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjM0IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI2ZmZmZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PzwvdGV4dD4KPHRleHQgeD0iNzUiIHk9IjExMiIgZm9udC1mYW1pbHk9IkhpcmFnaW5vIFNhbnMsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSJib2xkIiBsZXR0ZXItc3BhY2luZz0iMTAiIGZpbGw9IiNmZmZmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuW6nOmBkzwvdGV4dD4KPC9zdmc+Cg==">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    background: #dfe6ec;
+    overscroll-behavior: none;
+    user-select: none;
+  }
+  #app {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+  }
+  .screen { display: none; flex-direction: column; flex: 1; }
+  .screen.active { display: flex; }
+
+  h1.title {
+    text-align: center;
+    font-size: 22px;
+    color: #16406e;
+    margin: 8px 0 4px 0;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #567;
+    margin-bottom: 18px;
+  }
+
+  /* 六角形標識 */
+  .hexwrap { display: flex; justify-content: center; margin: 12px 0; }
+  .hexagon { position: relative; width: 160px; height: 138px; }
+  .hexagon.big { width: 200px; height: 172px; }
+  .hexagon.small { width: 84px; height: 74px; }
+  .hexagon svg { width: 100%; height: 100%; display: block; }
+  .hex-text {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #fff; font-weight: bold;
+  }
+  .hex-top, .hex-bottom { font-size: 14px; letter-spacing: 12px; padding-left: 12px; }
+  .hex-mid { font-size: 34px; line-height: 1; margin: 4px 0; }
+  .hexagon.big .hex-top, .hexagon.big .hex-bottom { font-size: 17px; letter-spacing: 15px; padding-left: 15px; }
+  .hexagon.big .hex-mid { font-size: 42px; }
+  .hexagon.small .hex-top, .hexagon.small .hex-bottom { font-size: 7px; letter-spacing: 5px; padding-left: 5px; }
+  .hexagon.small .hex-mid { font-size: 20px; }
+
+  /* ボタン共通 */
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    background: #1a5fb4;
+    color: #fff;
+    cursor: pointer;
+  }
+  .btn:active { background: #134a8f; }
+  .btn.secondary { background: #ffffff; color: #1a5fb4; border: 2px solid #1a5fb4; }
+  .btn.ghost { background: transparent; color: #567; border: none; font-weight: normal; font-size: 14px; }
+
+  /* 選択グループ */
+  .group { background: #fff; border-radius: 14px; padding: 14px; margin: 10px 0; }
+  .group-label { font-size: 13px; color: #567; margin-bottom: 8px; font-weight: bold; }
+  .option-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .option {
+    flex: 1 1 auto;
+    min-width: 70px;
+    text-align: center;
+    padding: 10px 8px;
+    border-radius: 10px;
+    border: 2px solid #d6dee6;
+    background: #eef2f7;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+  }
+  .option.selected { background: #1a5fb4; color: #fff; border-color: #1a5fb4; }
+
+  /* クイズ画面 */
+  .quiz-top { text-align: center; }
+  .progress { text-align: center; font-size: 13px; color: #567; margin-bottom: 4px; }
+  .name-card {
+    background: #fff;
+    border: 3px solid #1a5fb4;
+    border-radius: 14px;
+    padding: 20px 14px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #1a5fb4;
+    text-align: center;
+    margin: 10px auto;
+    max-width: 320px;
+  }
+  .name-card ruby rt { font-size: 11px; color: #4a7fc0; }
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .choice-btn {
+    background: #eef2f7;
+    border: 2px solid #d6dee6;
+    border-radius: 12px;
+    padding: 14px 6px;
+    font-size: 15px;
+    color: #222;
+    text-align: center;
+    cursor: pointer;
+  }
+  .choice-btn ruby rt { font-size: 10px; color: #555; }
+  .choice-btn.sign { display: flex; justify-content: center; padding: 10px 4px; }
+  .choice-btn.correct { background: #d7f3d7; border-color: #4caf50; }
+  .choice-btn.wrong { background: #fbdada; border-color: #e53935; }
+  .choice-btn.disabled { pointer-events: none; opacity: 0.6; }
+
+  .feedback {
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    min-height: 22px;
+    margin-top: 10px;
+  }
+  .feedback.correct { color: #2e7d32; }
+  .feedback.wrong { color: #c62828; }
+
+  /* 結果画面 */
+  .result-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    margin: 16px 0;
+  }
+  .result-score { font-size: 32px; font-weight: bold; color: #1a5fb4; margin: 8px 0; }
+  .badge {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    background: linear-gradient(135deg,#ffd54f,#ff9800);
+    color: #5a3400;
+    font-weight: bold;
+    font-size: 15px;
+  }
+  .best-record { font-size: 13px; color: #567; margin-top: 6px; }
+
+  .footer-note { text-align: center; font-size: 11px; color: #90a0ac; margin-top: auto; padding-top: 12px; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ホーム画面 -->
+  <div class="screen active" id="screen-home">
+    <h1 class="title">京都府道クイズ</h1>
+    <div class="subtitle">府道何号線は何線？を当てよう</div>
+    <div class="hexwrap">
+      <div class="hexagon big">
+        <svg viewBox="0 0 150 130"><polygon points="38,2 112,2 148,65 112,128 38,128 2,65" fill="#1a5fb4" stroke="#ffffff" stroke-width="8"/></svg>
+        <div class="hex-text"><div class="hex-top">京都</div><div class="hex-mid">?</div><div class="hex-bottom">府道</div></div>
+      </div>
+    </div>
+    <button class="btn" onclick="goSetup()">はじめる</button>
+  </div>
+
+  <!-- 設定画面 -->
+  <div class="screen" id="screen-setup">
+    <h1 class="title">せってい</h1>
+
+    <div class="group">
+      <div class="group-label">出題の向き</div>
+      <div class="option-row" id="dir-options">
+        <div class="option selected" data-val="num2name">番号→名称</div>
+        <div class="option" data-val="name2num">名称→番号</div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label">出題範囲</div>
+      <div class="option-row" id="range-options">
+        <div class="option selected" data-val="all">全て</div>
+        <div class="option" data-val="main">1〜99番</div>
+        <div class="option" data-val="city100">100番代</div>
+        <div class="option" data-val="rural">200〜800番代</div>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-label">モード</div>
+      <div class="option-row" id="mode-options">
+        <div class="option selected" data-val="5">5問</div>
+        <div class="option" data-val="10">10問</div>
+        <div class="option" data-val="survival">サバイバル</div>
+      </div>
+    </div>
+
+    <div id="best-record-display" class="best-record" style="text-align:center;"></div>
+
+    <button class="btn" onclick="startQuiz()">スタート</button>
+    <button class="btn ghost" onclick="goHome()">もどる</button>
+  </div>
+
+  <!-- クイズ画面 -->
+  <div class="screen" id="screen-quiz">
+    <div class="progress" id="quiz-progress"></div>
+    <div class="quiz-top" id="quiz-top"></div>
+    <div class="choices" id="quiz-choices"></div>
+    <div class="feedback" id="quiz-feedback"></div>
+  </div>
+
+  <!-- 結果画面 -->
+  <div class="screen" id="screen-result">
+    <h1 class="title">けっか</h1>
+    <div class="result-box" id="result-box"></div>
+    <button class="btn" onclick="startQuiz()">もう一度</button>
+    <button class="btn secondary" onclick="goSetup()">設定を変える</button>
+    <button class="btn ghost" onclick="goHome()">ホームへ</button>
+  </div>
+
+  <div class="footer-note">京都府の府道一覧をもとに作成</div>
+</div>
+
+<script>
+const ROUTES = [{"num":1,"name":"小浜綾部線","reading":"おばまあやべせん","cat":"main"},{"num":2,"name":"宮津養父線","reading":"みやづやぶせん","cat":"main"},{"num":3,"name":"大津南郷宇治線","reading":"おおつなんごううじせん","cat":"main"},{"num":4,"name":"笠置山添線","reading":"かさぎやまぞえせん","cat":"main"},{"num":5,"name":"木津信楽線","reading":"きづしがらきせん","cat":"main"},{"num":6,"name":"枚方亀岡線","reading":"ひらかたかめおかせん","cat":"main"},{"num":7,"name":"京都宇治線","reading":"きょうとうじせん","cat":"main"},{"num":8,"name":"福知山綾部線","reading":"ふくちやまあやべせん","cat":"main"},{"num":9,"name":"綾部大江宮津線","reading":"あやべおおえみやづせん","cat":"main"},{"num":10,"name":"大山崎大枝線","reading":"おおやまざきおおえだせん","cat":"main"},{"num":11,"name":"香美久美浜線","reading":"かみくみはません","cat":"main"},{"num":12,"name":"綾部宮島線","reading":"あやべみやじません","cat":"main"},{"num":13,"name":"京都守口線","reading":"きょうともりぐちせん","cat":"main"},{"num":14,"name":"大阪高槻京都線","reading":"おおさかたかつききょうとせん","cat":"main"},{"num":15,"name":"宇治淀線","reading":"うじよどせん","cat":"main"},{"num":16,"name":"宮津野田川線","reading":"みやづのだがわせん","cat":"main"},{"num":17,"name":"網野峰山線","reading":"あみのみねやません","cat":"main"},{"num":19,"name":"園部平屋線","reading":"そのべひらやせん","cat":"main"},{"num":20,"name":"網野久美浜線","reading":"あみのくみはません","cat":"main"},{"num":21,"name":"舞鶴野原港高浜線","reading":"まいづるのはらこうたかはません","cat":"main"},{"num":22,"name":"八幡木津線","reading":"やわたきづせん","cat":"main"},{"num":23,"name":"東舞鶴停車場線","reading":"ひがしまいづるていしゃじょうせん","cat":"main"},{"num":24,"name":"福知山停車場線","reading":"ふくちやまていしゃじょうせん","cat":"main"},{"num":25,"name":"亀岡園部線","reading":"かめおかそのべせん","cat":"main"},{"num":26,"name":"京丹波三和線","reading":"きょうたんばみわせん","cat":"main"},{"num":27,"name":"池辺京田線","reading":"いけべきょうでんせん","cat":"main"},{"num":28,"name":"小倉西舞鶴線","reading":"おぐらにしまいづるせん","cat":"main"},{"num":29,"name":"宇多野嵐山山田線","reading":"うたのあらしやまやまだせん","cat":"main"},{"num":30,"name":"下鴨大津線","reading":"しもがもおおつせん","cat":"main"},{"num":31,"name":"西陣杉坂線","reading":"にしじんすぎさかせん","cat":"main"},{"num":32,"name":"下鴨京都停車場線","reading":"しもがもきょうとていしゃじょうせん","cat":"main"},{"num":33,"name":"奈良笠置線","reading":"ならかさぎせん","cat":"main"},{"num":34,"name":"綾部美山線","reading":"あやべみやません","cat":"main"},{"num":35,"name":"大津淀線","reading":"おおつよどせん","cat":"main"},{"num":36,"name":"大津宇治線","reading":"おおつうじせん","cat":"main"},{"num":37,"name":"二条停車場東山三条線","reading":"にじょうていしゃじょうひがしやまさんじょうせん","cat":"main"},{"num":38,"name":"京都広河原美山線","reading":"きょうとひろがわらみやません","cat":"main"},{"num":40,"name":"下鴨静原大原線","reading":"しもがもしずはらおおはらせん","cat":"main"},{"num":43,"name":"豊中亀岡線","reading":"とよなかかめおかせん","cat":"main"},{"num":44,"name":"奈良加茂線","reading":"ならかもせん","cat":"main"},{"num":45,"name":"舞鶴宮津線","reading":"まいづるみやづせん","cat":"main"},{"num":46,"name":"茨木亀岡線","reading":"いばらきかめおかせん","cat":"main"},{"num":47,"name":"天理加茂木津線","reading":"てんりかもきづせん","cat":"main"},{"num":49,"name":"久美浜湊宮浦明線","reading":"くみはまみなとみやうらあけせん","cat":"main"},{"num":50,"name":"京都日吉美山線","reading":"きょうとひよしみやません","cat":"main"},{"num":51,"name":"舞鶴和知線","reading":"まいづるわちせん","cat":"main"},{"num":52,"name":"奈良精華線","reading":"ならせいかせん","cat":"main"},{"num":53,"name":"網野岩滝線","reading":"あみのいわたきせん","cat":"main"},{"num":54,"name":"園部能勢線","reading":"そのべのせせん","cat":"main"},{"num":55,"name":"舞鶴福知山線","reading":"まいづるふくちやません","cat":"main"},{"num":56,"name":"但東夜久野線","reading":"たんとうやくのせん","cat":"main"},{"num":57,"name":"弥栄本庄線","reading":"やさかほんじょうせん","cat":"main"},{"num":59,"name":"市島和知線","reading":"いちじまわちせん","cat":"main"},{"num":61,"name":"京都京北線","reading":"きょうとけいほくせん","cat":"main"},{"num":62,"name":"宇治木屋線","reading":"うじこやせん","cat":"main"},{"num":63,"name":"山東大江線","reading":"さんとうおおえせん","cat":"main"},{"num":65,"name":"生駒井手線","reading":"いこまいでせん","cat":"main"},{"num":66,"name":"志高西舞鶴線","reading":"しだかにしまいづるせん","cat":"main"},{"num":67,"name":"西京高槻線","reading":"にしきょうたかつきせん","cat":"main"},{"num":68,"name":"南インター竹田線","reading":"みなみいんたーたけだせん","cat":"main"},{"num":69,"name":"城陽宇治線","reading":"じょうよううじせん","cat":"main"},{"num":70,"name":"上狛城陽線","reading":"かみこまじょうようせん","cat":"main"},{"num":71,"name":"枚方山城線","reading":"ひらかたやましろせん","cat":"main"},{"num":72,"name":"生駒精華線","reading":"いこませいかせん","cat":"main"},{"num":73,"name":"宮前千歳線","reading":"みやまえちとせせん","cat":"main"},{"num":74,"name":"舞鶴綾部福知山線","reading":"まいづるあやべふくちやません","cat":"main"},{"num":75,"name":"浜丹後線","reading":"はまたんごせん","cat":"main"},{"num":76,"name":"野田川大宮線","reading":"のだがわおおみやせん","cat":"main"},{"num":77,"name":"綾部インター線","reading":"あやべいんたーせん","cat":"main"},{"num":78,"name":"佐々江下中線","reading":"ささえしもなかせん","cat":"main"},{"num":79,"name":"伏見柳谷高槻線","reading":"ふしみやなぎたにたかつきせん","cat":"main"},{"num":80,"name":"日吉京丹波線","reading":"ひよしきょうたんばせん","cat":"main"},{"num":81,"name":"八幡宇治線","reading":"やわたうじせん","cat":"main"},{"num":82,"name":"上野南山城線","reading":"うえのみなみやましろせん","cat":"main"},{"num":97,"name":"篠山三和線","reading":"ささやまみわせん","cat":"main"},{"num":101,"name":"銀閣寺宇多野線","reading":"ぎんかくじうたのせん","cat":"city100"},{"num":102,"name":"嵐山西院線","reading":"あらしやまさいいんせん","cat":"city100"},{"num":103,"name":"上賀茂山端線","reading":"かみがもやまばなせん","cat":"city100"},{"num":104,"name":"高野修学院山端線","reading":"たかのしゅうがくいんやまばなせん","cat":"city100"},{"num":105,"name":"岩倉山端線","reading":"いわくらやまばなせん","cat":"city100"},{"num":106,"name":"神山岩倉停車場線","reading":"こうやまいわくらていしゃじょうせん","cat":"city100"},{"num":107,"name":"雲ヶ畑下杉坂線","reading":"くもがはたしもすぎさかせん","cat":"city100"},{"num":108,"name":"草生上野線","reading":"くさおうえのせん","cat":"city100"},{"num":109,"name":"福知山山南線","reading":"ふくちやまさんなんせん","cat":"city100"},{"num":110,"name":"久多広河原線","reading":"くたひろがわらせん","cat":"city100"},{"num":111,"name":"二条停車場円町線","reading":"にじょうていしゃじょうえんまちせん","cat":"city100"},{"num":112,"name":"二条停車場嵐山線","reading":"にじょうていしゃじょうあらしやません","cat":"city100"},{"num":113,"name":"梅津東山七条線","reading":"うめづひがしやましちじょうせん","cat":"city100"},{"num":114,"name":"七条大宮四ツ塚線","reading":"しちじょうおおみやよつづかせん","cat":"city100"},{"num":115,"name":"伏見港京都停車場線","reading":"ふしみこうきょうとていしゃじょうせん","cat":"city100"},{"num":116,"name":"渋谷山科停車場線","reading":"しぶたにやましなていしゃじょうせん","cat":"city100"},{"num":117,"name":"小野山科停車場線","reading":"おのやましなていしゃじょうせん","cat":"city100"},{"num":118,"name":"勧修寺今熊野線","reading":"かじゅうじいまくまのせん","cat":"city100"},{"num":119,"name":"稲荷停車場線","reading":"いなりていしゃじょうせん","cat":"city100"},{"num":120,"name":"伏見停車場線","reading":"ふしみていしゃじょうせん","cat":"city100"},{"num":121,"name":"丹波橋停車場線","reading":"たんばばしていしゃじょうせん","cat":"city100"},{"num":122,"name":"久美浜気比線","reading":"くみはまけひせん","cat":"city100"},{"num":123,"name":"水垂上桂線","reading":"みずたれかみかつらせん","cat":"city100"},{"num":124,"name":"三栖向納所線","reading":"みすむこうのうそせん","cat":"city100"},{"num":125,"name":"淀停車場線","reading":"よどていしゃじょうせん","cat":"city100"},{"num":126,"name":"新町淀停車場線","reading":"しんまちよどていしゃじょうせん","cat":"city100"},{"num":127,"name":"日野薬師線","reading":"ひのやくしせん","cat":"city100"},{"num":128,"name":"六地蔵停車場線","reading":"ろくじぞうていしゃじょうせん","cat":"city100"},{"num":129,"name":"花園停車場大将軍線","reading":"はなぞのていしゃじょうたいしょうぐんせん","cat":"city100"},{"num":130,"name":"花園停車場御室線","reading":"はなぞのていしゃじょうおむろせん","cat":"city100"},{"num":131,"name":"花園停車場広隆寺線","reading":"はなぞのていしゃじょうこうりゅうじせん","cat":"city100"},{"num":132,"name":"太秦上桂線","reading":"うずまさかみかつらせん","cat":"city100"},{"num":133,"name":"嵯峨野西梅津線","reading":"さがのにしうめづせん","cat":"city100"},{"num":134,"name":"嵐山停車場線","reading":"あらしやまていしゃじょうせん","cat":"city100"},{"num":135,"name":"嵯峨嵐山停車場線","reading":"さがあらしやまていしゃじょうせん","cat":"city100"},{"num":136,"name":"大覚寺平岡線","reading":"だいかくじひらおかせん","cat":"city100"},{"num":137,"name":"清滝鳥居本線","reading":"きよたきとりいもとせん","cat":"city100"},{"num":138,"name":"神護寺線","reading":"じんごじせん","cat":"city100"},{"num":139,"name":"桂停車場線","reading":"かつらていしゃじょうせん","cat":"city100"},{"num":140,"name":"灰方中山線","reading":"はいかたなかやません","cat":"city100"},{"num":141,"name":"小塩山大原野線","reading":"おしおやまおおはらのせん","cat":"city100"},{"num":142,"name":"沓掛西大路五条線","reading":"くつかけにしおおじごじょうせん","cat":"city100"},{"num":143,"name":"四ノ宮四ツ塚線","reading":"しのみやよつづかせん","cat":"city100"},{"num":181,"name":"京都環状線","reading":"きょうとかんじょうせん","cat":"city100"},{"num":182,"name":"蹴上高野線","reading":"けあげたかのせん","cat":"city100"},{"num":183,"name":"衣笠宇多野線","reading":"きぬがさうたのせん","cat":"city100"},{"num":184,"name":"宇多野吉祥院線","reading":"うたのきっしょういんせん","cat":"city100"},{"num":185,"name":"勧修寺日ノ岡線","reading":"かじゅうじひのおかせん","cat":"city100"},{"num":186,"name":"嵐山祇園線","reading":"あらしやまぎおんせん","cat":"city100"},{"num":187,"name":"鹿ヶ谷嵐山線","reading":"ししがたにあらしやません","cat":"city100"},{"num":188,"name":"観月橋横大路線","reading":"かんげつきょうよこおおじせん","cat":"city100"},{"num":201,"name":"中山稲荷線","reading":"なかやまいなりせん","cat":"rural"},{"num":202,"name":"伏見向日線","reading":"ふしみむこうせん","cat":"rural"},{"num":203,"name":"志水西向日停車場線","reading":"しみずにしむこうていしゃじょうせん","cat":"rural"},{"num":204,"name":"奥海印寺納所線","reading":"おくかいいんじのうそせん","cat":"rural"},{"num":205,"name":"中山向日線","reading":"なかやまむこうせん","cat":"rural"},{"num":206,"name":"向日町停車場線","reading":"むこうまちていしゃじょうせん","cat":"rural"},{"num":207,"name":"上久世石見上里線","reading":"かみくぜいわみかみざとせん","cat":"rural"},{"num":208,"name":"向日善峰線","reading":"むこうよしみねせん","cat":"rural"},{"num":209,"name":"長法寺向日線","reading":"ちょうほうじむこうせん","cat":"rural"},{"num":210,"name":"開田長岡京停車場線","reading":"かいでながおかきょうていしゃじょうせん","cat":"rural"},{"num":211,"name":"下植野長岡京線","reading":"しもうえのながおかきょうせん","cat":"rural"},{"num":212,"name":"下植野大山崎線","reading":"しもうえのおおやまざきせん","cat":"rural"},{"num":213,"name":"長岡京停車場線","reading":"ながおかきょうていしゃじょうせん","cat":"rural"},{"num":241,"name":"向島宇治線","reading":"むかいじまうじせん","cat":"rural"},{"num":242,"name":"二尾木幡線","reading":"におこはたせん","cat":"rural"},{"num":243,"name":"木幡停車場線","reading":"こはたていしゃじょうせん","cat":"rural"},{"num":244,"name":"万福寺線","reading":"まんぷくじせん","cat":"rural"},{"num":245,"name":"黄檗停車場線","reading":"おうばくていしゃじょうせん","cat":"rural"},{"num":247,"name":"宇治公園線","reading":"うじこうえんせん","cat":"rural"},{"num":248,"name":"平等院線","reading":"びょうどういんせん","cat":"rural"},{"num":249,"name":"宇治小倉停車場線","reading":"うじおぐらていしゃじょうせん","cat":"rural"},{"num":251,"name":"富野荘八幡線","reading":"とのしょうやわたせん","cat":"rural"},{"num":252,"name":"寺田水主線","reading":"てらだみずしせん","cat":"rural"},{"num":253,"name":"富野荘停車場線","reading":"とのしょうていしゃじょうせん","cat":"rural"},{"num":254,"name":"長池停車場線","reading":"ながいけていしゃじょうせん","cat":"rural"},{"num":255,"name":"山城青谷停車場線","reading":"やましろあおだにていしゃじょうせん","cat":"rural"},{"num":256,"name":"山城総合運動公園城陽線","reading":"やましろそうごううんどうこうえんじょうようせん","cat":"rural"},{"num":281,"name":"八幡城陽線","reading":"やわたじょうようせん","cat":"rural"},{"num":282,"name":"内里城陽線","reading":"うちさとじょうようせん","cat":"rural"},{"num":283,"name":"奥山田射場線","reading":"おくやまだいばせん","cat":"rural"},{"num":284,"name":"八幡京田辺インター線","reading":"やわたきょうたなべいんたーせん","cat":"rural"},{"num":321,"name":"和束井手線","reading":"わづかいでせん","cat":"rural"},{"num":325,"name":"笠置公園線","reading":"かさぎこうえんせん","cat":"rural"},{"num":326,"name":"けいはんな記念公園木津線","reading":"けいはんなきねんこうえんきづせん","cat":"rural"},{"num":327,"name":"相楽台相楽線","reading":"そうらくだいそうらくせん","cat":"rural"},{"num":328,"name":"相楽台桜が丘線","reading":"そうらくだいさくらがおかせん","cat":"rural"},{"num":361,"name":"上黒田貴船線","reading":"かみくろだきぶねせん","cat":"rural"},{"num":362,"name":"愛宕弓槻線","reading":"あたごゆづきせん","cat":"rural"},{"num":363,"name":"宮ノ辻神吉線","reading":"みやのつじかみよしせん","cat":"rural"},{"num":364,"name":"中地日吉線","reading":"なかじひよしせん","cat":"rural"},{"num":365,"name":"中地熊田線","reading":"なかじくまたせん","cat":"rural"},{"num":366,"name":"塔下弓削線","reading":"とうしもゆげせん","cat":"rural"},{"num":367,"name":"常照寺上台線","reading":"じょうしょうじうわだいせん","cat":"rural"},{"num":368,"name":"和泉宮脇線","reading":"いずみみやわきせん","cat":"rural"},{"num":369,"name":"八原田上弓削線","reading":"やはらだかみゆげせん","cat":"rural"},{"num":370,"name":"佐々里井戸線","reading":"ささりいどせん","cat":"rural"},{"num":401,"name":"嵯峨亀岡線","reading":"さがかめおかせん","cat":"rural"},{"num":402,"name":"王子並河線","reading":"おうじなみかわせん","cat":"rural"},{"num":403,"name":"亀岡停車場線","reading":"かめおかていしゃじょうせん","cat":"rural"},{"num":404,"name":"亀岡停車場追分線","reading":"かめおかていしゃじょうおいわけせん","cat":"rural"},{"num":405,"name":"郷ノ口余部線","reading":"ごうのぐちようべせん","cat":"rural"},{"num":406,"name":"西条風ノ口線","reading":"にしじょうかぜのくちせん","cat":"rural"},{"num":407,"name":"東掛小林線","reading":"ひがしかけこばやしせん","cat":"rural"},{"num":408,"name":"郷ノ口室河原線","reading":"ごうのぐちむろがわらせん","cat":"rural"},{"num":409,"name":"千代川停車場線","reading":"ちよかわていしゃじょうせん","cat":"rural"},{"num":441,"name":"八木停車場線","reading":"やぎていしゃじょうせん","cat":"rural"},{"num":442,"name":"園部停車場線","reading":"そのべていしゃじょうせん","cat":"rural"},{"num":443,"name":"佐々江京北線","reading":"ささえけいほくせん","cat":"rural"},{"num":444,"name":"桧山須知線","reading":"ひやましゅうちせん","cat":"rural"},{"num":445,"name":"富田胡麻停車場線","reading":"とみだごまていしゃじょうせん","cat":"rural"},{"num":446,"name":"豊田富田線","reading":"とよだとみだせん","cat":"rural"},{"num":447,"name":"上野水原線","reading":"うえのみずはらせん","cat":"rural"},{"num":448,"name":"和知停車場線","reading":"わちていしゃじょうせん","cat":"rural"},{"num":450,"name":"広野綾部線","reading":"ひろのあやべせん","cat":"rural"},{"num":451,"name":"吉富八木線","reading":"よしとみやぎせん","cat":"rural"},{"num":452,"name":"長谷八木線","reading":"はせやぎせん","cat":"rural"},{"num":453,"name":"大河内口八田線","reading":"おおかわちくちはたせん","cat":"rural"},{"num":454,"name":"竹井室河原線","reading":"たけいむろがわらせん","cat":"rural"},{"num":455,"name":"八木東インター線","reading":"やぎひがしいんたーせん","cat":"rural"},{"num":481,"name":"上杉和知線","reading":"かみすぎわちせん","cat":"rural"},{"num":482,"name":"山家停車場線","reading":"やまがていしゃじょうせん","cat":"rural"},{"num":483,"name":"安場田野線","reading":"やすばたのせん","cat":"rural"},{"num":484,"name":"淵垣上八田線","reading":"ふちがきかみはたせん","cat":"rural"},{"num":485,"name":"物部梅迫停車場線","reading":"ものべうめざこていしゃじょうせん","cat":"rural"},{"num":486,"name":"篠田七百石線","reading":"しのだしちひゃくこくせん","cat":"rural"},{"num":487,"name":"老富舞鶴線","reading":"おいとみまいづるせん","cat":"rural"},{"num":488,"name":"小貝豊里線","reading":"おがいとよさとせん","cat":"rural"},{"num":489,"name":"小西西坂線","reading":"こにしにしざかせん","cat":"rural"},{"num":490,"name":"物部西舞鶴線","reading":"ものべにしまいづるせん","cat":"rural"},{"num":491,"name":"金河内地頭線","reading":"かなごうちじとうせん","cat":"rural"},{"num":492,"name":"私市大江線","reading":"きさいちおおえせん","cat":"rural"},{"num":493,"name":"西坂蓼原線","reading":"にしざかたではらせん","cat":"rural"},{"num":494,"name":"綾部大江線","reading":"あやべおおえせん","cat":"rural"},{"num":521,"name":"上川合猪鼻線","reading":"かみかわいいのはなせん","cat":"rural"},{"num":522,"name":"三俣綾部線","reading":"みつまたあやべせん","cat":"rural"},{"num":523,"name":"福知山停車場篠尾線","reading":"ふくちやまていしゃじょうしのおせん","cat":"rural"},{"num":524,"name":"石原停車場戸田線","reading":"いさていしゃじょうとだせん","cat":"rural"},{"num":525,"name":"石原多保市線","reading":"いさとおのいちせん","cat":"rural"},{"num":526,"name":"談夜久野線","reading":"だんやくのせん","cat":"rural"},{"num":527,"name":"筈巻牧線","reading":"はずまきまきせん","cat":"rural"},{"num":528,"name":"下野条上川口停車場線","reading":"しものじょうかみかわぐちていしゃじょうせん","cat":"rural"},{"num":529,"name":"大呂下天津線","reading":"おおろしもあまつせん","cat":"rural"},{"num":530,"name":"桑村雲原線","reading":"くわむらくもはらせん","cat":"rural"},{"num":531,"name":"上夜久野停車場線","reading":"かみやくのていしゃじょうせん","cat":"rural"},{"num":532,"name":"二俣三河線","reading":"ふたまたみかわせん","cat":"rural"},{"num":533,"name":"内宮地頭線","reading":"ないくうじとうせん","cat":"rural"},{"num":561,"name":"田井中田線","reading":"たいなかだせん","cat":"rural"},{"num":562,"name":"金剛院線","reading":"こんごういんせん","cat":"rural"},{"num":563,"name":"松尾寺停車場線","reading":"まつのおでらていしゃじょうせん","cat":"rural"},{"num":564,"name":"松尾吉坂線","reading":"まつのおよしざかせん","cat":"rural"},{"num":565,"name":"余部下舞鶴港線","reading":"あまるべしもまいづるこうせん","cat":"rural"},{"num":566,"name":"西舞鶴停車場線","reading":"にしまいづるていしゃじょうせん","cat":"rural"},{"num":567,"name":"地頭四所停車場線","reading":"じとうししょていしゃじょうせん","cat":"rural"},{"num":568,"name":"念仏峠線","reading":"ねんぶつとうげせん","cat":"rural"},{"num":569,"name":"東雲停車場線","reading":"しののめていしゃじょうせん","cat":"rural"},{"num":570,"name":"西方寺岡田由里線","reading":"さいほうじおかだゆりせん","cat":"rural"},{"num":571,"name":"西神崎上東線","reading":"にしかんざきじょうとうせん","cat":"rural"},{"num":601,"name":"由良金ヶ岬上福井線","reading":"ゆらかねがみさきかみふくいせん","cat":"rural"},{"num":602,"name":"丹後由良停車場線","reading":"たんごゆらていしゃじょうせん","cat":"rural"},{"num":603,"name":"新宮中村線","reading":"しんぐうなかむらせん","cat":"rural"},{"num":604,"name":"栗田停車場線","reading":"くんだていしゃじょうせん","cat":"rural"},{"num":605,"name":"栗田半島線","reading":"くんだはんとうせん","cat":"rural"},{"num":606,"name":"宮津停車場線","reading":"みやづていしゃじょうせん","cat":"rural"},{"num":607,"name":"天の橋立線","reading":"あまのはしだてせん","cat":"rural"},{"num":608,"name":"温江加悦線","reading":"あつえかやせん","cat":"rural"},{"num":613,"name":"下地与謝野停車場線","reading":"しもじよさのていしゃじょうせん","cat":"rural"},{"num":614,"name":"岩滝口停車場線","reading":"いわたきぐちていしゃじょうせん","cat":"rural"},{"num":615,"name":"弓ノ木岩滝線","reading":"ゆみのきいわたきせん","cat":"rural"},{"num":616,"name":"笠松公園線","reading":"かさまつこうえんせん","cat":"rural"},{"num":617,"name":"上延利線","reading":"あげのぶとしせん","cat":"rural"},{"num":618,"name":"上世屋内山線","reading":"かみせやうちやません","cat":"rural"},{"num":619,"name":"中波見里波見線","reading":"なかはみさとはみせん","cat":"rural"},{"num":620,"name":"奥波見岩ヶ鼻線","reading":"おくはみいわがはなせん","cat":"rural"},{"num":621,"name":"下世屋本庄線","reading":"しもせやほんじょうせん","cat":"rural"},{"num":622,"name":"伊根港線","reading":"いねこうせん","cat":"rural"},{"num":623,"name":"本庄浜本庄宇治線","reading":"ほんじょうはまほんじょううじせん","cat":"rural"},{"num":624,"name":"本庄港線","reading":"ほんじょうこうせん","cat":"rural"},{"num":625,"name":"岩ヶ鼻須川線","reading":"いわがはなすがわせん","cat":"rural"},{"num":626,"name":"野田川加悦線","reading":"のだがわかやせん","cat":"rural"},{"num":651,"name":"大宮岩滝線","reading":"おおみやいわたきせん","cat":"rural"},{"num":652,"name":"久僧伊根線","reading":"くそういねせん","cat":"rural"},{"num":653,"name":"碇網野線","reading":"いかりあみのせん","cat":"rural"},{"num":654,"name":"井辺平線","reading":"いのべへいせん","cat":"rural"},{"num":655,"name":"味土野大宮線","reading":"みどのおおみやせん","cat":"rural"},{"num":656,"name":"間人大宮線","reading":"たいざおおみやせん","cat":"rural"},{"num":657,"name":"明田京丹後大宮停車場線","reading":"あけだきょうたんごおおみやていしゃじょうせん","cat":"rural"},{"num":658,"name":"久住河辺線","reading":"くすみかわべせん","cat":"rural"},{"num":659,"name":"二箇河辺線","reading":"にかかわべせん","cat":"rural"},{"num":662,"name":"溝谷内記線","reading":"みぞたにないきせん","cat":"rural"},{"num":663,"name":"掛津峰山線","reading":"かけつみねやません","cat":"rural"},{"num":664,"name":"橋木鳥取線","reading":"はしきとっとりせん","cat":"rural"},{"num":665,"name":"木津網野線","reading":"こづあみのせん","cat":"rural"},{"num":666,"name":"岡田浦明線","reading":"おかだうらあけせん","cat":"rural"},{"num":667,"name":"夕日ヶ浦木津温泉停車場線","reading":"ゆうひがうらこづおんせんていしゃじょうせん","cat":"rural"},{"num":668,"name":"野中小天橋停車場線","reading":"のなかことんきょうていしゃじょうせん","cat":"rural"},{"num":669,"name":"芦原甲山線","reading":"あしはらこうやません","cat":"rural"},{"num":670,"name":"久美浜停車場線","reading":"くみはまていしゃじょうせん","cat":"rural"},{"num":671,"name":"尉ヶ畑布袋野線","reading":"じょうがはたほたいのせん","cat":"rural"},{"num":672,"name":"間人港線","reading":"たいざこうせん","cat":"rural"},{"num":673,"name":"浅茂川下岡線","reading":"あさもがわしもおかせん","cat":"rural"},{"num":801,"name":"京都八幡木津自転車道線","reading":"きょうとやわたきづじてんしゃどうせん","cat":"rural"},{"num":802,"name":"田井大垣自転車道線","reading":"たいおおがきじてんしゃどうせん","cat":"rural"},{"num":803,"name":"加悦岩滝自転車道線","reading":"かやいわたきじてんしゃどうせん","cat":"rural"}]
+;
+
+let state = {
+  dir: 'num2name',
+  range: 'all',
+  mode: '5',
+  pool: [],
+  qIndex: 0,
+  score: 0,
+  total: 0,
+  current: null,
+  survivalStreak: 0,
+  answered: false
+};
+
+function $(id){ return document.getElementById(id); }
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active');
+}
+function goHome(){ showScreen('screen-home'); }
+function goSetup(){ showScreen('screen-setup'); updateBestRecordDisplay(); }
+
+function setupOptionGroup(groupId, stateKey){
+  const group = $(groupId);
+  group.querySelectorAll('.option').forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      group.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+      state[stateKey] = opt.dataset.val;
+      if(stateKey==='range' || stateKey==='dir') updateBestRecordDisplay();
+    });
+  });
+}
+setupOptionGroup('dir-options','dir');
+setupOptionGroup('range-options','range');
+setupOptionGroup('mode-options','mode');
+
+function recordKey(){
+  return 'fudoquiz_best_' + state.range + '_' + state.dir;
+}
+function getBest(){
+  try { return parseInt(localStorage.getItem(recordKey())||'0',10); } catch(e){ return 0; }
+}
+function setBest(v){
+  try { localStorage.setItem(recordKey(), String(v)); } catch(e){}
+}
+function updateBestRecordDisplay(){
+  const best = getBest();
+  $('best-record-display').textContent = best>0 ? ('この条件のサバイバル最高記録: '+best+'問') : '';
+}
+
+function filterPool(){
+  if(state.range==='all') return ROUTES.slice();
+  return ROUTES.filter(r=>r.cat===state.range);
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(){
+  state.pool = filterPool();
+  if(state.pool.length < 4){
+    alert('この範囲には問題が足りません。範囲を変えてください。');
+    goSetup();
+    return;
+  }
+  state.qIndex = 0;
+  state.score = 0;
+  state.total = state.mode==='survival' ? Infinity : parseInt(state.mode,10);
+  state.survivalStreak = 0;
+  showScreen('screen-quiz');
+  nextQuestion();
+}
+
+function pickDistractors(correct, n){
+  const candidates = state.pool.filter(r=>r.num!==correct.num);
+  return shuffle(candidates).slice(0,n);
+}
+
+function hexHTML(size, numText){
+  return `<div class="hexagon ${size}">
+    <svg viewBox="0 0 150 130"><polygon points="38,2 112,2 148,65 112,128 38,128 2,65" fill="#1a5fb4" stroke="#ffffff" stroke-width="8"/></svg>
+    <div class="hex-text"><div class="hex-top">京都</div><div class="hex-mid">${numText}</div><div class="hex-bottom">府道</div></div>
+  </div>`;
+}
+
+function nextQuestion(){
+  state.answered = false;
+  if(state.mode!=='survival' && state.qIndex >= state.total){
+    finishQuiz();
+    return;
+  }
+  const correct = shuffle(state.pool)[0];
+  const distractors = pickDistractors(correct, 3);
+  const options = shuffle([correct, ...distractors]);
+  state.current = { correct, options };
+
+  const progText = state.mode==='survival'
+    ? ('連続正解: ' + state.survivalStreak + '問')
+    : ('問題 ' + (state.qIndex+1) + ' / ' + state.total);
+  $('quiz-progress').textContent = progText;
+
+  const top = $('quiz-top');
+  const choicesEl = $('quiz-choices');
+  $('quiz-feedback').textContent = '';
+  $('quiz-feedback').className = 'feedback';
+
+  if(state.dir==='num2name'){
+    top.innerHTML = `<div class="hexwrap">${hexHTML('big', correct.num)}</div>`;
+    choicesEl.innerHTML = options.map(o=>
+      `<div class="choice-btn" data-num="${o.num}"><ruby>${o.name}<rt>${o.reading.replace('せん','せん')}</rt></ruby></div>`
+    ).join('');
+  } else {
+    top.innerHTML = `<div class="name-card"><ruby>${correct.name}<rt>${correct.reading}</rt></ruby></div>`;
+    choicesEl.innerHTML = options.map(o=>
+      `<div class="choice-btn sign" data-num="${o.num}">${hexHTML('small', o.num)}</div>`
+    ).join('');
+  }
+
+  choicesEl.querySelectorAll('.choice-btn').forEach(btn=>{
+    btn.addEventListener('click', onAnswer);
+  });
+}
+
+function onAnswer(e){
+  if(state.answered) return;
+  state.answered = true;
+  const chosenNum = parseInt(e.currentTarget.dataset.num,10);
+  const correctNum = state.current.correct.num;
+  const isCorrect = chosenNum === correctNum;
+
+  document.querySelectorAll('.choice-btn').forEach(btn=>{
+    btn.classList.add('disabled');
+    const n = parseInt(btn.dataset.num,10);
+    if(n===correctNum) btn.classList.add('correct');
+    else if(n===chosenNum) btn.classList.add('wrong');
+  });
+
+  const fb = $('quiz-feedback');
+  if(isCorrect){
+    fb.textContent = '正解！';
+    fb.className = 'feedback correct';
+    state.score++;
+    state.survivalStreak++;
+  } else {
+    fb.textContent = '残念！ 正解は 府道' + correctNum + '号 ' + state.current.correct.name;
+    fb.className = 'feedback wrong';
+  }
+
+  setTimeout(()=>{
+    if(state.mode==='survival'){
+      if(isCorrect){
+        state.qIndex++;
+        nextQuestion();
+      } else {
+        finishQuiz();
+      }
+    } else {
+      state.qIndex++;
+      nextQuestion();
+    }
+  }, isCorrect ? 900 : 1800);
+}
+
+function finishQuiz(){
+  showScreen('screen-result');
+  const box = $('result-box');
+  if(state.mode==='survival'){
+    const best = getBest();
+    const isNewBest = state.survivalStreak > best;
+    if(isNewBest) setBest(state.survivalStreak);
+    box.innerHTML = `
+      <div>サバイバル結果</div>
+      <div class="result-score">${state.survivalStreak}問正解</div>
+      ${isNewBest ? '<div class="badge">🎉 最高記録更新！</div>' : ''}
+      <div class="best-record">最高記録: ${isNewBest?state.survivalStreak:best}問</div>
+    `;
+  } else {
+    const perfect = state.score === state.total;
+    box.innerHTML = `
+      <div>結果</div>
+      <div class="result-score">${state.score} / ${state.total} 問正解</div>
+      ${perfect ? '<div class="badge">🏅 府道博士 認定！</div>' : ''}
+    `;
+  }
+}
+</script>
+</body>
+</html>
