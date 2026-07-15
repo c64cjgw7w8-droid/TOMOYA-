@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="けいさん電卓">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>けいさん電卓</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --body-dark:#2b2e32;
+    --body-dark2:#1d1f22;
+    --bezel-line:#101214;
+    --screen-bg:#c7d3ba;
+    --screen-bg2:#b9c7ab;
+    --screen-ink:#33422c;
+    --key-face:#eef0f2;
+    --key-face-shadow:#b9bcc1;
+    --key-text:#2b2e32;
+    --accent-orange:#ff8a3d;
+    --accent-orange-shadow:#c85f16;
+    --accent-blue:#4a90d9;
+    --accent-blue-shadow:#2f679f;
+    --accent-red:#e2483e;
+    --accent-red-shadow:#a92b23;
+    --accent-gold:#e8b923;
+    --accent-gold-shadow:#a9840f;
+    --accent-silver:#c7ccd1;
+    --accent-silver-shadow:#8b9096;
+    --page-bg1:#dfe6ee;
+    --page-bg2:#c9d3de;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;height:100%;
+    font-family:'Zen Maru Gothic', sans-serif;
+    background:linear-gradient(160deg,var(--page-bg1),var(--page-bg2));
+    -webkit-tap-highlight-color:transparent;
+    overscroll-behavior:none;
+  }
+  body{
+    display:flex;align-items:center;justify-content:center;
+    min-height:100dvh;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .device{
+    width:100%;
+    max-width:430px;
+    height:100dvh;
+    max-height:900px;
+    background:linear-gradient(160deg,var(--body-dark),var(--body-dark2));
+    border-radius:0;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+    padding:14px 14px 20px;
+    display:flex;flex-direction:column;
+    position:relative;
+    border:2px solid var(--bezel-line);
+  }
+  @media (min-width:460px){
+    .device{
+      height:min(900px,94dvh);
+      border-radius:38px;
+      margin:16px 0;
+    }
+  }
+  .bezel-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:2px 6px 10px;
+    flex-shrink:0;
+  }
+  .brand{
+    font-family:'DotGothic16',monospace;
+    color:#8b9096;
+    font-size:13px;
+    letter-spacing:.12em;
+  }
+  .bezel-btn{
+    display:flex;align-items:center;gap:4px;
+    background:none;border:none;color:#c7ccd1;
+    font-family:'Zen Maru Gothic';font-size:13px;font-weight:700;
+    padding:6px 8px;border-radius:10px;
+  }
+  .bezel-btn:active{background:rgba(255,255,255,.08);}
+  .stamp-indicator{
+    font-family:'DotGothic16',monospace;
+    color:#e8b923;
+    font-size:14px;
+  }
+
+  .screen{
+    background:radial-gradient(120% 140% at 20% 0%,var(--screen-bg),var(--screen-bg2));
+    border-radius:16px;
+    box-shadow:inset 0 3px 10px rgba(0,0,0,.35), inset 0 0 0 3px rgba(0,0,0,.12);
+    flex:1 1 auto;
+    min-height:0;
+    padding:16px 14px;
+    position:relative;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .screen::before{
+    content:"";
+    position:absolute;inset:0;
+    background:repeating-linear-gradient(180deg, rgba(0,0,0,.035) 0px, rgba(0,0,0,.035) 1px, transparent 1px, transparent 3px);
+    pointer-events:none;
+  }
+  .screen-inner{
+    position:relative;z-index:1;
+    flex:1;
+    display:flex;flex-direction:column;
+    min-height:0;
+    color:var(--screen-ink);
+  }
+  .screen-scroll{
+    overflow-y:auto;
+    flex:1;
+    min-height:0;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .keypad{
+    flex-shrink:0;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:14px;
+  }
+  .key{
+    font-family:'Zen Maru Gothic';
+    font-weight:700;
+    font-size:16px;
+    color:var(--key-text);
+    background:var(--key-face);
+    border:none;
+    border-radius:14px;
+    padding:16px 6px;
+    box-shadow:0 4px 0 var(--key-face-shadow);
+    -webkit-user-select:none;user-select:none;
+    line-height:1.25;
+  }
+  .key:active{transform:translateY(3px);box-shadow:0 1px 0 var(--key-face-shadow);}
+  .key.wide{grid-column:span 3;}
+  .key.wide2{grid-column:span 2;}
+  .key.digit{font-family:'DotGothic16';font-size:22px;}
+  .key.orange{background:var(--accent-orange);color:#fff;box-shadow:0 4px 0 var(--accent-orange-shadow);}
+  .key.blue{background:var(--accent-blue);color:#fff;box-shadow:0 4px 0 var(--accent-blue-shadow);}
+  .key.red{background:var(--accent-red);color:#fff;box-shadow:0 4px 0 var(--accent-red-shadow);}
+  .key.gold{background:var(--accent-gold);color:#4a3a04;box-shadow:0 4px 0 var(--accent-gold-shadow);}
+  .key.silver{background:var(--accent-silver);color:#3a3d40;box-shadow:0 4px 0 var(--accent-silver-shadow);}
+  .key.ghost{background:#3a3d41;color:#c7ccd1;box-shadow:0 4px 0 #101214;}
+  .key:disabled{opacity:.35;}
+
+  /* ---- ホーム画面 ---- */
+  .home-title{
+    font-family:'DotGothic16';
+    font-size:26px;
+    text-align:center;
+    margin:6px 0 2px;
+    letter-spacing:.06em;
+  }
+  .home-sub{
+    text-align:center;
+    font-size:12px;
+    color:#5b6653;
+    margin-bottom:14px;
+  }
+  .home-stamp-preview{
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    font-family:'DotGothic16';
+    font-size:15px;
+    margin-top:auto;
+    padding-top:10px;
+  }
+
+  /* ---- 選択リスト ---- */
+  .choice-list{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
+  .section-label{
+    font-family:'DotGothic16';font-size:15px;margin-bottom:2px;
+  }
+
+  /* ---- クイズ画面 ---- */
+  .quiz-progress{
+    font-family:'DotGothic16';font-size:13px;text-align:right;opacity:.75;
+  }
+  .quiz-problem{
+    font-family:'DotGothic16';
+    font-size:34px;
+    text-align:center;
+    margin:14px 0 6px;
+    letter-spacing:.02em;
+  }
+  .quiz-input-box{
+    font-family:'DotGothic16';
+    font-size:30px;
+    text-align:center;
+    min-height:44px;
+    border-bottom:3px solid var(--screen-ink);
+    margin:0 30px 10px;
+    letter-spacing:.06em;
+  }
+  .quiz-feedback{
+    text-align:center;
+    font-family:'DotGothic16';
+    font-size:40px;
+    margin-top:4px;
+    min-height:50px;
+  }
+  .quiz-feedback.correct{color:#2a6b2f;}
+  .quiz-feedback.wrong{color:#a92b23;}
+  .quiz-answer-reveal{
+    text-align:center;
+    font-size:14px;
+    color:#4a3a04;
+    margin-top:2px;
+  }
+  @keyframes pop{
+    0%{transform:scale(.4);opacity:0;}
+    60%{transform:scale(1.15);opacity:1;}
+    100%{transform:scale(1);}
+  }
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-6px);}
+    75%{transform:translateX(6px);}
+  }
+  .pop{animation:pop .35s ease-out;}
+  .shake{animation:shake .3s ease-in-out;}
+
+  /* ---- 結果画面 ---- */
+  .result-wrap{text-align:center;margin-top:6px;}
+  .result-score{
+    font-family:'DotGothic16';font-size:32px;margin:8px 0;
+  }
+  .result-message{font-size:15px;margin:6px 0 14px;font-weight:700;}
+  .result-stamp{
+    width:112px;height:112px;margin:10px auto;
+    animation:pop .5s ease-out;
+  }
+  .hanamaru-icon{width:100%;height:100%;display:block;filter:drop-shadow(0 3px 4px rgba(0,0,0,.2));}
+  .hanamaru-icon.red{color:var(--accent-red);}
+  .hanamaru-icon.silver{color:var(--accent-silver-shadow);}
+  .hanamaru-icon.gold{color:var(--accent-gold-shadow);}
+  .result-stamp-label{
+    font-family:'DotGothic16';font-size:13px;margin-top:2px;
+  }
+
+  /* ---- スタンプシート ---- */
+  .stamp-msg{
+    font-size:13px;text-align:center;margin-bottom:10px;line-height:1.5;
+  }
+  .stamp-grid{
+    display:grid;grid-template-columns:repeat(5,1fr);gap:8px;
+    padding:4px;
+  }
+  .stamp-cell{
+    aspect-ratio:1;
+    border-radius:50%;
+    border:2px dashed #8b9581;
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;color:#8b9581;
+  }
+  .stamp-cell.filled{
+    border:none;
+    padding:10%;
+  }
+  .stamp-cell.filled .hanamaru-icon{filter:none;}
+  .record-title{font-family:'DotGothic16';font-size:13px;margin:14px 0 6px;}
+  .record-list{font-size:12px;line-height:1.9;}
+  .record-empty{font-size:12px;opacity:.7;}
+
+  .legend{
+    display:flex;gap:10px;justify-content:center;margin-top:14px;font-size:10px;flex-wrap:wrap;
+  }
+  .legend span{display:flex;align-items:center;gap:4px;}
+  .legend i{width:10px;height:10px;border-radius:50%;display:inline-block;}
+  .legend i.red{background:var(--accent-red);}
+  .legend i.silver{background:var(--accent-silver-shadow);}
+  .legend i.gold{background:var(--accent-gold-shadow);}
+
+  .fullsheet-overlay{
+    position:absolute;inset:0;background:rgba(30,32,34,.92);
+    display:flex;align-items:center;justify-content:center;
+    z-index:5;border-radius:16px;
+    text-align:center;color:#fff;padding:20px;
+  }
+  .fullsheet-overlay.hidden{display:none;}
+  .fullsheet-overlay h3{font-family:'DotGothic16';font-size:20px;margin-bottom:10px;}
+  .fullsheet-overlay p{font-size:13px;line-height:1.7;}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="hanamaru-symbol" viewBox="0 0 200 200">
+      <g fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="100.0" cy="50.0" r="44"/>
+        <circle cx="135.4" cy="64.6" r="44"/>
+        <circle cx="150.0" cy="100.0" r="44"/>
+        <circle cx="135.4" cy="135.4" r="44"/>
+        <circle cx="100.0" cy="150.0" r="44"/>
+        <circle cx="64.6" cy="135.4" r="44"/>
+        <circle cx="50.0" cy="100.0" r="44"/>
+        <circle cx="64.6" cy="64.6" r="44"/>
+        <path d="M 100.0 93.0 L 100.8 92.6 L 101.7 92.3 L 102.6 92.2 L 103.6 92.1 L 104.7 92.2 L 105.7 92.4 L 106.8 92.7 L 107.9 93.2 L 108.9 93.9 L 109.9 94.7 L 110.8 95.6 L 111.6 96.7 L 112.3 97.9 L 112.9 99.2 L 113.3 100.6 L 113.6 102.1 L 113.7 103.6 L 113.6 105.2 L 113.3 106.9 L 112.9 108.5 L 112.2 110.1 L 111.3 111.7 L 110.3 113.1 L 109.0 114.5 L 107.6 115.8 L 106.0 116.9 L 104.3 117.9 L 102.4 118.7 L 100.3 119.2 L 98.2 119.6 L 96.1 119.7 L 93.8 119.5 L 91.6 119.2 L 89.4 118.5 L 87.2 117.6 L 85.1 116.4 L 83.1 115.0 L 81.3 113.4 L 79.6 111.5 L 78.1 109.4 L 76.8 107.1 L 75.7 104.6 L 75.0 102.0 L 74.5 99.3 L 74.3 96.5 L 74.4 93.7 L 74.8 90.8 L 75.6 88.0 L 76.7 85.2 L 78.1 82.5 L 79.8 79.9 L 81.8 77.6 L 84.1 75.4 L 86.6 73.4 L 89.4 71.7 L 92.4 70.4 L 95.6 69.3 L 98.9 68.6 L 102.3 68.2 L 105.8 68.2 L 109.3 68.6 L 112.7 69.4 L 116.2 70.6 L 119.5 72.2 L 122.6 74.1 L 125.6 76.4 L 128.3 79.0 L 130.8 82.0 L 132.9 85.2 L 134.7 88.7 L 136.1 92.4 L 137.2 96.3 L 137.8 100.3 L 137.9 104.4 L 137.6 108.6 L 136.9 112.7 L 135.7 116.8 L 134.0 120.8 L 131.9 124.6 L 129.4 128.1 L 126.5 131.5 L 123.2 134.5 L 119.6 137.1 L 115.6 139.4 L 111.4 141.3 L 107.0 142.7 L 102.4 143.6 L 97.6 144.0 L 92.8 143.9 L 88.0 143.3 L 83.3 142.2 L 78.7 140.5 L 74.2 138.3 L 70.0 135.6 L 66.0 132.5 L 62.4 128.9 L 59.1 124.9 L 56.3 120.6 L 53.9 115.9 L 52.1 110.9 L 50.8 105.8 L 50.0 100.4 L 49.8 95.0 L 50.3 89.6 L 51.3 84.2 L 52.9 78.8 L 55.0 73.7 L 57.8 68.8 L 61.1 64.1 L 64.9 59.8 L 69.2 55.9 L 73.9 52.5 L 79.0 49.6 L 84.4 47.2 L 90.1 45.4 L 96.0 44.3 L 102.0 43.7 L 108.1 43.9 L 114.2 44.6 L 120.2 46.1 L 126.1 48.2 L 131.7 51.0 L 137.1 54.3 L 142.1 58.3 L 146.7 62.8 L 150.7 67.8 L 154.3 73.3 L 157.2 79.1 L 159.6 85.3 L 161.2 91.7 L 162.2 98.3 L 162.4 105.1 L 161.9 111.8 L 160.7 118.5 L 158.8 125.1 L 156.1 131.5 L 152.7 137.6 L 148.7 143.3 L 144.0 148.6 L 138.8 153.4"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+<div class="device">
+  <div class="bezel-row">
+    <button class="bezel-btn" id="btnHome">🏠 ホーム</button>
+    <div class="brand">KEISAN CALC</div>
+    <button class="bezel-btn stamp-indicator" id="btnStampJump">🌸<span id="stampCountLabel">0</span>/30</button>
+  </div>
+
+  <div class="screen">
+    <div class="fullsheet-overlay hidden" id="fullsheetOverlay">
+      <div>
+        <h3>スタンプシートが<br>いっぱいになりました！</h3>
+        <p id="fullsheetDate"></p>
+        <p>あたらしいシートが<br>はじまるよ。</p>
+      </div>
+    </div>
+    <div class="screen-inner">
+      <div class="screen-scroll" id="screenContent"></div>
+    </div>
+  </div>
+
+  <div class="keypad" id="keypad"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ==================== ユーティリティ ==================== */
+  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+  }
+  function todayStr(){
+    const d=new Date();
+    return d.getFullYear()+"年"+(d.getMonth()+1)+"月"+d.getDate()+"日";
+  }
+
+  /* ==================== データ保存 ==================== */
+  const STORAGE_CELLS="keisan_stamp_cells";
+  const STORAGE_RECORDS="keisan_records";
+
+  function loadCells(){
+    try{ return JSON.parse(localStorage.getItem(STORAGE_CELLS))||[]; }catch(e){ return []; }
+  }
+  function saveCells(cells){
+    localStorage.setItem(STORAGE_CELLS, JSON.stringify(cells));
+  }
+  function loadRecords(){
+    try{ return JSON.parse(localStorage.getItem(STORAGE_RECORDS))||[]; }catch(e){ return []; }
+  }
+  function saveRecords(records){
+    localStorage.setItem(STORAGE_RECORDS, JSON.stringify(records));
+  }
+
+  let stampCells = loadCells();
+  let records = loadRecords();
+
+  function addStamp(color){
+    stampCells.push({color});
+    if(stampCells.length>=30){
+      records.unshift({date:todayStr()});
+      records = records.slice(0,10);
+      saveRecords(records);
+      stampCells = [];
+      saveCells(stampCells);
+      updateStampIndicator();
+      return {full:true};
+    }
+    saveCells(stampCells);
+    updateStampIndicator();
+    return {full:false};
+  }
+  function updateStampIndicator(){
+    document.getElementById("stampCountLabel").textContent = stampCells.length;
+  }
+
+  /* ==================== 問題生成 ==================== */
+  function genAddition(grade){
+    const pattern = Math.random()<0.5 ? "A":"B";
+    let a,b;
+    if(grade===1){
+      if(pattern==="A"){ a=randInt(1,9); b=randInt(1,9); }
+      else { a=randInt(10,99); b=randInt(1,9); }
+    } else if(grade===2){
+      if(pattern==="A"){ a=randInt(10,99); b=randInt(10,99); }
+      else { a=randInt(100,999); b=randInt(1,99); }
+    } else {
+      if(pattern==="A"){ a=randInt(100,999); b=randInt(100,999); }
+      else { a=randInt(1000,9999); b=randInt(1,999); }
+    }
+    return {a,b,op:"＋",answer:a+b};
+  }
+
+  function genSubtraction(grade){
+    const pattern = Math.random()<0.5 ? "A":"B";
+    let a,b;
+    if(grade===1){
+      if(pattern==="A"){ a=randInt(1,9); b=randInt(1,9); if(b>a)[a,b]=[b,a]; }
+      else { a=randInt(10,99); b=randInt(1,9); }
+    } else if(grade===2){
+      if(pattern==="A"){ a=randInt(10,99); b=randInt(10,99); if(b>a)[a,b]=[b,a]; }
+      else { a=randInt(100,999); b=randInt(1,99); }
+    } else {
+      if(pattern==="A"){ a=randInt(100,999); b=randInt(100,999); if(b>a)[a,b]=[b,a]; }
+      else { a=1000; b=randInt(100,999); }
+    }
+    return {a,b,op:"－",answer:a-b};
+  }
+
+  function genMultiplyDan(dan, order){
+    let seq;
+    if(order==="asc") seq=[1,2,3,4,5,6,7,8,9];
+    else if(order==="desc") seq=[9,8,7,6,5,4,3,2,1];
+    else seq=shuffle([1,2,3,4,5,6,7,8,9]);
+    return seq.map(n=>({a:dan,b:n,op:"×",answer:dan*n}));
+  }
+  function genMultiplyAllRandom(count){
+    const qs=[];
+    for(let i=0;i<count;i++){
+      const a=randInt(1,9), b=randInt(1,9);
+      qs.push({a,b,op:"×",answer:a*b});
+    }
+    return qs;
+  }
+  function genDivision(count){
+    const qs=[];
+    for(let i=0;i<count;i++){
+      const b=randInt(1,9), ans=randInt(1,9);
+      qs.push({a:b*ans,b:b,op:"÷",answer:ans});
+    }
+    return qs;
+  }
+
+  /* ==================== 画面制御 ==================== */
+  const screenEl = document.getElementById("screenContent");
+  const keypadEl = document.getElementById("keypad");
+
+  function setScreen(html){ screenEl.innerHTML = html; }
+  function setKeys(buttons){
+    keypadEl.innerHTML = "";
+    buttons.forEach(b=>{
+      const btn = document.createElement("button");
+      btn.className = "key" + (b.cls?(" "+b.cls):"");
+      btn.innerHTML = b.text;
+      if(b.disabled) btn.disabled = true;
+      btn.addEventListener("click", b.onClick);
+      keypadEl.appendChild(btn);
+    });
+  }
+
+  /* ---- ホーム ---- */
+  function renderHome(){
+    setScreen(`
+      <div class="home-title">けいさん電卓</div>
+      <div class="home-sub">モードをえらんでね</div>
+      <div class="home-stamp-preview">🌸 スタンプ ${stampCells.length} / 30</div>
+    `);
+    setKeys([
+      {text:"＋<br>たし算", cls:"red", onClick:()=>renderGradeSelect("add")},
+      {text:"－<br>ひき算", cls:"blue", onClick:()=>renderGradeSelect("sub")},
+      {text:"×<br>かけ算", cls:"silver", onClick:()=>renderMultiplyDanSelect()},
+      {text:"÷<br>わり算", cls:"gold", onClick:()=>startDivisionConfirm()},
+      {text:"🌸 スタンプシートを見る", cls:"wide2", onClick:()=>renderStampSheet()},
+      {text:"↺", cls:"ghost", onClick:()=>renderHome()}
+    ]);
+  }
+
+  /* ---- 学年選択(たし算/ひき算) ---- */
+  function renderGradeSelect(op){
+    const opLabel = op==="add" ? "たし算" : "ひき算";
+    setScreen(`
+      <div class="section-label">${opLabel}　学年をえらんでね</div>
+    `);
+    setKeys([
+      {text:"1年生", cls: op==="add"?"red":"blue", onClick:()=>startCalcQuiz(op,1)},
+      {text:"2年生", cls: op==="add"?"red":"blue", onClick:()=>startCalcQuiz(op,2)},
+      {text:"3年生", cls: op==="add"?"red":"blue", onClick:()=>startCalcQuiz(op,3)},
+      {text:"もどる", cls:"ghost wide", onClick:()=>renderHome()}
+    ]);
+  }
+
+  function startCalcQuiz(op,grade){
+    const questions=[];
+    for(let i=0;i<5;i++){
+      questions.push(op==="add" ? genAddition(grade) : genSubtraction(grade));
+    }
+    const color = "red";
+    const retry = ()=>startCalcQuiz(op,grade);
+    const back = ()=>renderGradeSelect(op);
+    beginQuiz(questions, color, retry, back);
+  }
+
+  /* ---- かけ算：段選択 ---- */
+  function renderMultiplyDanSelect(){
+    setScreen(`<div class="section-label">かけ算　だんをえらんでね</div>`);
+    const keys=[];
+    for(let d=1; d<=9; d++){
+      keys.push({text:d+"の段", cls:"silver", onClick:()=>renderMultiplyOrderSelect(d)});
+    }
+    keys.push({text:"九九ぜんぶから ランダム10問", cls:"gold wide", onClick:()=>startMultiplyAllRandom()});
+    keys.push({text:"もどる", cls:"ghost wide", onClick:()=>renderHome()});
+    setKeys(keys);
+  }
+
+  function renderMultiplyOrderSelect(dan){
+    setScreen(`<div class="section-label">${dan}の段　順番をえらんでね</div>`);
+    setKeys([
+      {text:"じゅんばん(小→大)", cls:"silver wide", onClick:()=>startMultiplyDan(dan,"asc")},
+      {text:"ぎゃくじゅん(大→小)", cls:"silver wide", onClick:()=>startMultiplyDan(dan,"desc")},
+      {text:"だんの中でランダム", cls:"silver wide", onClick:()=>startMultiplyDan(dan,"random")},
+      {text:"もどる", cls:"ghost wide", onClick:()=>renderMultiplyDanSelect()}
+    ]);
+  }
+
+  function startMultiplyDan(dan,order){
+    const questions = genMultiplyDan(dan,order);
+    beginQuiz(questions, "silver", ()=>startMultiplyDan(dan,order), ()=>renderMultiplyOrderSelect(dan));
+  }
+  function startMultiplyAllRandom(){
+    const questions = genMultiplyAllRandom(10);
+    beginQuiz(questions, "silver", ()=>startMultiplyAllRandom(), ()=>renderMultiplyDanSelect());
+  }
+
+  /* ---- わり算 ---- */
+  function startDivisionConfirm(){
+    setScreen(`
+      <div class="section-label">わり算</div>
+      <div style="font-size:13px;margin-top:6px;">
+        九九のはんいから もんだいを 10問 だすよ。
+      </div>
+    `);
+    setKeys([
+      {text:"はじめる", cls:"gold wide", onClick:()=>startDivision()},
+      {text:"もどる", cls:"ghost wide", onClick:()=>renderHome()}
+    ]);
+  }
+  function startDivision(){
+    const questions = genDivision(10);
+    beginQuiz(questions, "gold", ()=>startDivision(), ()=>startDivisionConfirm());
+  }
+
+  /* ==================== クイズ本体 ==================== */
+  let quiz = null;
+
+  function beginQuiz(questions, color, retryFn, backFn){
+    quiz = {
+      questions, color, retryFn, backFn,
+      idx:0, input:"", wrongCount:0, submitted:false, lastCorrect:null
+    };
+    renderQuiz();
+  }
+
+  function renderQuiz(){
+    const q = quiz.questions[quiz.idx];
+    const total = quiz.questions.length;
+    let feedbackHtml = "";
+    if(quiz.submitted){
+      if(quiz.lastCorrect){
+        feedbackHtml = `<div class="quiz-feedback correct pop">○</div>`;
+      } else {
+        feedbackHtml = `<div class="quiz-feedback wrong pop">×</div>
+          <div class="quiz-answer-reveal">こたえ：${q.answer}</div>`;
+      }
+    } else {
+      feedbackHtml = `<div class="quiz-feedback"></div>`;
+    }
+    setScreen(`
+      <div class="quiz-progress">${quiz.idx+1} / ${total} もん</div>
+      <div class="quiz-problem">${q.a} ${q.op} ${q.b} =</div>
+      <div class="quiz-input-box${quiz.submitted && !quiz.lastCorrect ? ' shake':''}">${quiz.input || "&nbsp;"}</div>
+      ${feedbackHtml}
+    `);
+    renderQuizKeys();
+  }
+
+  function renderQuizKeys(){
+    if(!quiz.submitted){
+      setKeys([
+        {text:"7",cls:"digit",onClick:()=>inputDigit("7")},
+        {text:"8",cls:"digit",onClick:()=>inputDigit("8")},
+        {text:"9",cls:"digit",onClick:()=>inputDigit("9")},
+        {text:"4",cls:"digit",onClick:()=>inputDigit("4")},
+        {text:"5",cls:"digit",onClick:()=>inputDigit("5")},
+        {text:"6",cls:"digit",onClick:()=>inputDigit("6")},
+        {text:"1",cls:"digit",onClick:()=>inputDigit("1")},
+        {text:"2",cls:"digit",onClick:()=>inputDigit("2")},
+        {text:"3",cls:"digit",onClick:()=>inputDigit("3")},
+        {text:"C",cls:"blue",onClick:()=>clearInput()},
+        {text:"0",cls:"digit",onClick:()=>inputDigit("0")},
+        {text:"⌫",cls:"blue",onClick:()=>backspace()},
+        {text:"けってい",cls:"orange wide",onClick:()=>submitAnswer()}
+      ]);
+    } else {
+      const isLast = quiz.idx === quiz.questions.length-1;
+      setKeys([
+        {text: isLast ? "けっかを見る" : "つぎへ", cls:"orange wide", onClick:()=>nextQuestion()}
+      ]);
+    }
+  }
+
+  function inputDigit(d){
+    if(quiz.input.length>=4) return;
+    if(quiz.input==="0") quiz.input="";
+    quiz.input += d;
+    renderQuiz();
+  }
+  function backspace(){
+    quiz.input = quiz.input.slice(0,-1);
+    renderQuiz();
+  }
+  function clearInput(){
+    quiz.input = "";
+    renderQuiz();
+  }
+  function submitAnswer(){
+    if(quiz.input==="") return;
+    const q = quiz.questions[quiz.idx];
+    const userAns = parseInt(quiz.input,10);
+    quiz.lastCorrect = (userAns === q.answer);
+    if(!quiz.lastCorrect) quiz.wrongCount++;
+    quiz.submitted = true;
+    renderQuiz();
+  }
+  function nextQuestion(){
+    if(quiz.idx < quiz.questions.length-1){
+      quiz.idx++;
+      quiz.input="";
+      quiz.submitted=false;
+      quiz.lastCorrect=null;
+      renderQuiz();
+    } else {
+      renderResult();
+    }
+  }
+
+  /* ==================== 結果画面 ==================== */
+  function renderResult(){
+    const total = quiz.questions.length;
+    const correctCount = total - quiz.wrongCount;
+    const perfect = quiz.wrongCount === 0;
+
+    let stampHtml = "";
+    let fullInfo = null;
+    if(perfect){
+      fullInfo = addStamp(quiz.color);
+      const colorLabel = quiz.color==="red" ? "赤" : quiz.color==="silver" ? "銀" : "金";
+      stampHtml = `
+        <div class="result-stamp"><svg class="hanamaru-icon ${quiz.color}"><use href="#hanamaru-symbol"></use></svg></div>
+        <div class="result-stamp-label">${colorLabel}の花丸ゲット！</div>
+      `;
+    }
+
+    setScreen(`
+      <div class="result-wrap">
+        <div class="result-score">${correctCount} / ${total} 問 せいかい</div>
+        <div class="result-message">${perfect ? "🎉 ぜんもんせいかい！すごい！" : "おしい！もういちど ちょうせんしてみよう"}</div>
+        ${stampHtml}
+      </div>
+    `);
+    setKeys([
+      {text:"もういちど", cls:"orange wide", onClick:()=> quiz.retryFn()},
+      {text:"🌸 スタンプシート", cls:"silver wide", onClick:()=>renderStampSheet()},
+      {text:"ホームへ", cls:"ghost wide", onClick:()=>renderHome()}
+    ]);
+
+    if(fullInfo && fullInfo.full){
+      const overlay = document.getElementById("fullsheetOverlay");
+      document.getElementById("fullsheetDate").textContent = records[0].date + " に コンプリート！";
+      overlay.classList.remove("hidden");
+      setTimeout(()=>{ overlay.classList.add("hidden"); }, 2600);
+    }
+  }
+
+  /* ==================== スタンプシート ==================== */
+  function renderStampSheet(){
+    let cellsHtml = "";
+    for(let i=0;i<30;i++){
+      const cell = stampCells[i];
+      if(cell){
+        cellsHtml += `<div class="stamp-cell filled"><svg class="hanamaru-icon ${cell.color}"><use href="#hanamaru-symbol"></use></svg></div>`;
+      } else {
+        cellsHtml += `<div class="stamp-cell"></div>`;
+      }
+    }
+    let recordsHtml = "";
+    if(records.length===0){
+      recordsHtml = `<div class="record-empty">まだ きろくは ないよ</div>`;
+    } else {
+      recordsHtml = `<div class="record-list">` + records.map((r,i)=>`${i+1}. ${r.date} コンプリート`).join("<br>") + `</div>`;
+    }
+    setScreen(`
+      <div class="section-label">スタンプシート</div>
+      <div class="stamp-msg">スタンプを全部貯めると…<br>いい事があるかも？</div>
+      <div class="stamp-grid">${cellsHtml}</div>
+      <div class="legend">
+        <span><i class="red"></i>たし算・ひき算</span>
+        <span><i class="silver"></i>かけ算</span>
+        <span><i class="gold"></i>わり算</span>
+      </div>
+      <div class="record-title">🏆 コンプリートきろく</div>
+      ${recordsHtml}
+    `);
+    setKeys([
+      {text:"ホームへ", cls:"orange wide", onClick:()=>renderHome()}
+    ]);
+  }
+
+  /* ==================== 初期化 ==================== */
+  document.getElementById("btnHome").addEventListener("click", ()=>renderHome());
+  document.getElementById("btnStampJump").addEventListener("click", ()=>renderStampSheet());
+  updateStampIndicator();
+  renderHome();
+
+})();
+</script>
+</body>
+</html>
